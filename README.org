@@ -1,0 +1,17 @@
+#+TITLE: NixOS configuration files
+#+AUTHOR: [[mailto:thibault@thb.lt][Thibault Polge]]
+
+This repository contains my NixOS configuration files for various machines.
+
+* Organization
+
+This repository is structured as follows:
+
+| Path      | Contents                                                                                            |
+|-----------+-----------------------------------------------------------------------------------------------------|
+| =/=         | To check out as =/etc/nixos=                                                                          |
+| =/machines= | Descriptions of actual computers.  Each file is called =hostname.nix=.                                |
+| =/class=    | Machine classes.  A class is generally an abstraction of some *hardware* property, eg being a laptop. |
+| =/roles=    | Machine roles.  A role is what a machine is *for*.                                                    |
+
+To setup a machine, I simply symlink =machines/{hostname}.nix= to =/etc/nixos/configuration.nix=
