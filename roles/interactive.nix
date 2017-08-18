@@ -15,4 +15,5 @@
     consoleKeyMap = "fr";
     defaultLocale = "fr_FR.UTF-8";
   };
+
 }

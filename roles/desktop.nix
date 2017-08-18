@@ -3,7 +3,6 @@
   imports = [ "/etc/nixos/roles/interactive.nix" ];
 
   system.stateVersion = "17.03";
-  nixpkgs.config.allowUnfree = true;
 
   services.pcscd.enable = true;
 
@@ -30,4 +29,7 @@
       uid = 1000;
     };
   };
+
+  time.timeZone = "Europe/Paris";
+
 }
