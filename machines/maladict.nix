@@ -2,6 +2,8 @@
 {
   nixpkgs.config.allowUnfree = true;
 
+  hardware.enableRedistributableFirmware = true;
+
   imports = [
     "/etc/nixos/roles/desktop.nix"
     "/etc/nixos/class/laptop.nix"
