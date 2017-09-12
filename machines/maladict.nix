@@ -12,7 +12,7 @@
 
   networking.hostName = "maladict";
 
-  services.xserver.videoDrivers = [ "i915" ];
+  services.xserver.videoDrivers = [ "i965" ];
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
   boot.kernelModules = [ "kvm-intel" ];
