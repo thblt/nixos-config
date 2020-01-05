@@ -60,18 +60,16 @@
     # Rainbow keyboard
     hardware.ckb-next.enable = true;
 
-    # powerManagement.powertop.enable = true;
+    # @FIXME This breaks optirun
+    powerManagement.powertop.enable = true;
 
     # Talk with iOS hardware
     services.usbmuxd.enable = true;
 
     # i18n
-    i18n = {
-      consoleFont = pkgs.lib.mkForce "${pkgs.terminus_font}/share/consolefonts/ter-i32n.psf.gz"; # HiDPI
-      consoleKeyMap = "fr-bepo";
-      defaultLocale = "fr_FR.UTF-8";
-      #inputMethod.enabled = "ibus";
-    };
+    i18n.defaultLocale = "fr_FR.UTF-8";
+    console.font = pkgs.lib.mkForce "${pkgs.terminus_font}/share/consolefonts/ter-i32n.psf.gz"; # HiDPI
+    console.keyMap = "fr-bepo";
 
     # Time
     time.timeZone = "Europe/Paris";
@@ -99,6 +97,11 @@
       ];
     };
 
+    nix.gc = {
+      automatic = true;
+      options = "--delete-older-than 8d";
+    };
+
     # Base system programs
     environment.systemPackages = with pkgs; [
       file
@@ -120,6 +123,7 @@
       # dpi = 289; # HiDPI
       layout = "fr";
       xkbVariant = "bepo";
+      xkbOptions = "caps:ctrl_modifier";
       libinput = {
         enable = true;
         disableWhileTyping = true;
