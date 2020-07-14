@@ -6,7 +6,7 @@
       xorg = super.xorg // rec {
       xkeyboardconfig_thblt = super.xorg.xkeyboardconfig.overrideAttrs (old: {
           patches = [ ./bepo-afnor.patch ];
-        });     # xorg.xkeyboardconfig_thblt
+        });
 
         xorgserver = super.xorg.xorgserver.overrideAttrs (old: {
           configureFlags = old.configureFlags ++ [
@@ -16,7 +16,7 @@
         });
 
         setxkbmap = super.xorg.setxkbmap.overrideAttrs (old: {
-          postInstall =
+           postInstall =
             ''
               mkdir -p $out/share
               ln -sfn ${xkeyboardconfig_thblt}/etc/X11 $out/share/X11
@@ -27,7 +27,7 @@
           configureFlags = "--with-xkb-config-root=${xkeyboardconfig_thblt}/share/X11/xkb";
         });
 
-      };        # xorg
+      };
 
       xkbvalidate = super.xkbvalidate.override {
         libxkbcommon = super.libxkbcommon.override {
