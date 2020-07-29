@@ -88,6 +88,7 @@
           swayidle
           swaylock
           udiskie
+          wl-clipboard
           xorg.xev
           xsel
 	        xwayland

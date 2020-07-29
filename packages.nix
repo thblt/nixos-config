@@ -1,17 +1,16 @@
 { config, lib, pkgs, ... }:
 let
-  all-hies = import (fetchTarball "https://github.com/infinisil/all-hies/tarball/master") {};
   emacsPrime = (pkgs.emacs.override {
-        srcRepo = true;
-        withGTK2 = false;
-        withGTK3 = false;
+    srcRepo = true;
+    withGTK2 = false;
+    withGTK3 = false; # GTK3 Emacs isn't wayland-native, it just adds the gtk bug https://emacshorrors.com/posts/psa-emacs-is-not-a-proper-gtk-application.html
       }).overrideAttrs ({name, version, versionModifier, ...}: {
         name = "emacs-${version}${versionModifier}";
         version = "HEAD";
         versionModifier = "";
         src = builtins.fetchGit {
           url = "https://git.savannah.gnu.org/git/emacs.git";
-          rev = "7b0216fbc0a1051e6f3bee5bf6c2435b2b3a1ddf";
+          rev = "609cbd63c31a21ca521507695abeda1203134c99";
         };
         # configureFlags = configureFlags ++ ["--with-imagemagick"];
         # buildInputs = buildInputs ++ [ pkgs.imagemagick ];
@@ -27,13 +26,6 @@ in
 
   # Base system programs
   environment.systemPackages = with pkgs; [
-    (all-hies.selection { selector = p: { inherit (p) ghc865 ghc882; }; })
-    acpi
-    cachix
-    file
-    pciutils
-    powertop
-    psmisc
 
     # ** Shell
 
@@ -43,8 +35,12 @@ in
 
     acpi lm_sensors
     bind
+    file
     htop
     p7zip
+    pciutils
+    powertop
+    psmisc
     tree
     unrar
     wget
@@ -109,6 +105,7 @@ in
     meld
     nix-prefetch-scripts
     ripgrep
+    llvmPackages.bintools  # This is generally useful.
 
     # ***  The C family
     clang
@@ -119,7 +116,10 @@ in
 
     # *** Haskell
 
+    cabal-install
+    ghc
     haskellPackages.apply-refact
+    haskellPackages.haskell-language-server
     hlint
     haskellPackages.hoogle
     stack
@@ -136,6 +136,7 @@ in
     # *** Rust
 
     cargo
+    cargo-edit
     rustc
     rustfmt
     rust-analyzer
