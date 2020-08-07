@@ -4,16 +4,14 @@ let
     srcRepo = true;
     withGTK2 = false;
     withGTK3 = false; # GTK3 Emacs isn't wayland-native, it just adds the gtk bug https://emacshorrors.com/posts/psa-emacs-is-not-a-proper-gtk-application.html
-      }).overrideAttrs ({name, version, versionModifier, ...}: {
-        name = "emacs-${version}${versionModifier}";
-        version = "HEAD";
-        versionModifier = "";
+      }).overrideAttrs ({name, version, ...}: {
+        name = "emacs-${version}-thblt";
+        version = "27.1";
         src = builtins.fetchGit {
-          url = "https://git.savannah.gnu.org/git/emacs.git";
-          rev = "609cbd63c31a21ca521507695abeda1203134c99";
+          url = "git://git.savannah.gnu.org/emacs.git";
+          #rev = "86d8d76aa36037184db0b2897c434cdaab1a9ae8";
+          ref = "emacs-27.1-rc2";
         };
-        # configureFlags = configureFlags ++ ["--with-imagemagick"];
-        # buildInputs = buildInputs ++ [ pkgs.imagemagick ];
         autoconf = true;
         automake = true;
         texinfo = true;
@@ -22,7 +20,7 @@ let
 in
 {
   #chromium.enablePepperFlash = true;
-  #oraclejdk.accept_license = true;
+  # oraclejdk.accept_license = true;
 
   # Base system programs
   environment.systemPackages = with pkgs; [
@@ -41,22 +39,23 @@ in
     pciutils
     powertop
     psmisc
+    tldr
     tree
+    udiskie
     unrar
     wget
     whois
     zip unzip
 
-    # ** Less common utilities
+    # ** Utilities
 
     bc
     graphviz
-    udiskie
 
     # ** Crypto
 
     gnupg1compat
-    pass
+    gopass
     pinentry
 
     # ** X11 and X utilities
@@ -67,7 +66,6 @@ in
     evince
     firefox-bin
     gimp
-    hugo
     jabref
     imagemagick
     inkscape
