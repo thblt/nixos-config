@@ -65,7 +65,7 @@ in
     chromium
     evince
     firefox-bin
-    gimp
+    krita
     jabref
     imagemagick
     inkscape
