@@ -41,7 +41,6 @@ in
     psmisc
     tldr
     tree
-    udiskie
     unrar
     wget
     whois
@@ -51,6 +50,8 @@ in
 
     bc
     graphviz
+    pandoc
+    udiskie
 
     # ** Crypto
 
@@ -64,7 +65,7 @@ in
 
     chromium
     evince
-    firefox-bin
+    (firefox.override { extraNativeMessagingHosts = [ passff-host ]; })
     krita
     jabref
     imagemagick
