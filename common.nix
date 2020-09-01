@@ -93,7 +93,7 @@
       syntaxHighlighting.enable = true;
       enableCompletion = true;
     };
-    s  };
+  };
 
   # Printing
   services.printing = {
