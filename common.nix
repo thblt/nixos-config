@@ -16,132 +16,137 @@
       ./packages.nix
     ];
 
-    # Use the systemd-boot EFI boot loader.
-    boot = {
-      extraModulePackages = [ config.boot.kernelPackages.exfat-nofuse ];
-      loader = {
-        systemd-boot = {
-          enable = true;
-          editor = false;
-          consoleMode = "1"; # HiDPI
-        };
-        timeout = 30;
-        efi.canTouchEfiVariables = true;
-      };
-    };
-
-    # Update the microcode
-    hardware.cpu.intel.updateMicrocode = true;
-
-    # TRIM
-    services.fstrim.enable = true;
-
-    # Video
-    boot.kernelParams  = [ "acpi_rev_override=5" ];
-    # hardware.bumblebee.enable = true;
-
-    # Sound
-    sound.enable = true;
-    hardware.pulseaudio.enable = true;
-
-    # Networking
-    networking.networkmanager.enable = true;
-
-    # @FIXME This breaks optirun
-    powerManagement.powertop.enable = true;
-
-    # Talk with iOS hardware
-    # services.usbmuxd.enable = true;
-
-    # i18n
-    i18n.defaultLocale = "fr_FR.UTF-8";
-    console.keyMap = "fr-bepo";
-
-    # Time
-    time.timeZone = "Europe/Paris";
-    time.hardwareClockInLocalTime = true;
-
-    programs = {
-      sway = {
+  # Use the systemd-boot EFI boot loader.
+  boot = {
+    extraModulePackages = [ config.boot.kernelPackages.exfat-nofuse ];
+    loader = {
+      systemd-boot = {
         enable = true;
-        extraPackages = with pkgs; [
-          alacritty
-          dmenu
-          grim
-          libnotify
-          mako
-          rofi
-          swayidle
-          swaylock
-          udiskie
-          wl-clipboard
-          xorg.xev
-          xsel
-	        xwayland
-        ];
+        editor = false;
+        consoleMode = "1"; # HiDPI
       };
-      light.enable = true;
-      command-not-found.enable = true;
-      gnupg.agent = {
-        enable = true;
-        enableSSHSupport = true;
-      };
-      ssh.startAgent = false;
-      zsh.enable = true;
+      timeout = 30;
+      efi.canTouchEfiVariables = true;
     };
+  };
 
-    # Printing
-    services.printing = {
+  # Update the microcode
+  hardware.cpu.intel.updateMicrocode = true;
+
+  # TRIM
+  services.fstrim.enable = true;
+
+  # Video
+  boot.kernelParams  = [ "acpi_rev_override=5" ];
+  # hardware.bumblebee.enable = true;
+
+  # Sound
+  sound.enable = true;
+  hardware.pulseaudio.enable = true;
+
+  # Networking
+  networking.networkmanager.enable = true;
+
+  # @FIXME This breaks optirun
+  powerManagement.powertop.enable = true;
+
+  # Talk with iOS hardware
+  # services.usbmuxd.enable = true;
+
+  # i18n
+  i18n.defaultLocale = "fr_FR.UTF-8";
+  console.keyMap = "fr-bepo";
+
+  # Time
+  time.timeZone = "Europe/Paris";
+  time.hardwareClockInLocalTime = true;
+
+  programs = {
+    sway = {
       enable = true;
-      drivers = with pkgs; [
-        samsungUnifiedLinuxDriver
-        brgenml1cupswrapper
+      extraPackages = with pkgs; [
+        alacritty
+        dmenu
+        grim
+        libnotify
+        mako
+        rofi
+        swayidle
+        swaylock
+        udiskie
+        wl-clipboard
+        xorg.xev
+        xsel
+        xwayland
       ];
     };
-
-    nix.gc = {
-      automatic = true;
-      options = "--delete-older-than 8d";
+    light.enable = true;
+    command-not-found.enable = true;
+    gnupg.agent = {
+      enable = true;
+      enableSSHSupport = true;
     };
+    ssh.startAgent = false;
+    zsh = {
+      enable = true;
+      autosuggestions.enable = true;
+      syntaxHighlighting.enable = true;
+      enableCompletion = true;
+    };
+    s  };
 
-    fonts.enableFontDir = true;
-    fonts.fonts = let
-      iosevkaTerm = pkgs.iosevka.override {
-        set = "thblt";
-        privateBuildPlan = {
-          family = "Iosevka";
-          design = [ "term"  ];
-        };
-      };
-      # Note to self: `slab` isn't distinct enough from `sans` for the
-      # two to be used together.
-    in [
-      # iosevkaTerm
-      pkgs.iosevka
-      pkgs.symbola
+  # Printing
+  services.printing = {
+    enable = true;
+    drivers = with pkgs; [
+      samsungUnifiedLinuxDriver
+      brgenml1cupswrapper
     ];
+  };
 
-    services.gnome3.gnome-keyring.enable = pkgs.lib.mkForce false;
+  nix.gc = {
+    automatic = true;
+    options = "--delete-older-than 8d";
+  };
 
-    users = {
-      defaultUserShell = pkgs.zsh;
-      extraUsers.thblt = {
-        isNormalUser = true;
-        extraGroups = [
-          "networkmanager"
-          "sway"
-          "video" # For programs.light to work
-          "wheel" ];
-          uid = 1000;
+  fonts.enableFontDir = true;
+  fonts.fonts = let
+    iosevkaTerm = pkgs.iosevka.override {
+      set = "thblt";
+      privateBuildPlan = {
+        family = "Iosevka";
+        design = [ "term"  ];
       };
     };
+    # Note to self: `slab` isn't distinct enough from `sans` for the
+    # two to be used together.
+  in [
+    # iosevkaTerm
+    pkgs.iosevka
+    pkgs.symbola
+  ];
 
-    # Smartcard support
-    services.pcscd.enable = true;
+  services.gnome3.gnome-keyring.enable = pkgs.lib.mkForce false;
 
-    virtualisation.virtualbox.host.enable = true;
+  users = {
+    defaultUserShell = pkgs.zsh;
+    extraUsers.thblt = {
+      isNormalUser = true;
+      extraGroups = [
+        "networkmanager"
+        "sway"
+        "video" # For programs.light to work
+        "wheel" ];
+      uid = 1000;
+    };
+  };
 
-    system.stateVersion = "18.03";
-    nixpkgs.config.allowUnfree = true;
-    hardware.enableRedistributableFirmware = true;
+  # Smartcard support
+  services.pcscd.enable = true;
+
+  virtualisation.virtualbox.host.enable = true;
+
+  system.stateVersion = "18.03";
+  nixpkgs.config.allowUnfree = true;
+  hardware.enableRedistributableFirmware = true;
 }
