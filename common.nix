@@ -123,6 +123,7 @@
   in [
     # iosevkaTerm
     pkgs.iosevka
+    pkgs.open-sans
     pkgs.symbola
   ];
 
