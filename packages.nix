@@ -4,8 +4,8 @@ let
     srcRepo = true;
     withGTK2 = false;
     withGTK3 = false; # GTK3 Emacs isn't wayland-native, it just adds the gtk bug https://emacshorrors.com/posts/psa-emacs-is-not-a-proper-gtk-application.html
-      }).overrideAttrs ({name, version, ...}: {
-        name = "emacs-${version}-thblt";
+      }).overrideAttrs ({version, ...}: {
+        # name = "emacs-${version}-thblt";
         version = "27.1";
         src = builtins.fetchGit {
           url = "git://git.savannah.gnu.org/emacs.git";

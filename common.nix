@@ -109,7 +109,7 @@
     options = "--delete-older-than 8d";
   };
 
-  fonts.enableFontDir = true;
+  fonts.fontDir.enable = true;
   fonts.fonts = let
     iosevkaTerm = pkgs.iosevka.override {
       set = "thblt";
