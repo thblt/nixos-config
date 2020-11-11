@@ -91,16 +91,16 @@ in
     aspell
     aspellDicts.fr
     aspellDicts.en
-
     hunspell
     hunspellDicts.fr-any
+    notmuch
 
     # ** Programming tools
 
     # *** Language-independent
 
+    cloc
     gitFull
-    gitAndTools.git-hub
     meld
     nix-prefetch-scripts
     ripgrep

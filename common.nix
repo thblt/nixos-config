@@ -74,6 +74,7 @@
         swayidle
         swaylock
         udiskie
+        waybar
         wl-clipboard
         xorg.xev
         xsel
