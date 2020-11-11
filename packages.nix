@@ -86,7 +86,8 @@ in
 
     # ** Emacs and friends
 
-    emacsPrime
+    (emacs.override { withGTK3 = false; })
+    # emacsPrime
     isync
     aspell
     aspellDicts.fr
