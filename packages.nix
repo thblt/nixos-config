@@ -109,6 +109,7 @@ in
     llvmPackages.bintools  # This is generally useful.
 
     # ***  The C family
+
     clang
 
     # *** Go
@@ -127,7 +128,7 @@ in
 
     # *** Python
 
-    python36
+    python3
 
     # *** Lisps
 
