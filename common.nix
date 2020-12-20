@@ -128,7 +128,9 @@
     pkgs.symbola
   ];
 
+  services.keybase.enable = true;
   services.gnome3.gnome-keyring.enable = pkgs.lib.mkForce false;
+  services.pcscd.enable = true;   # Smartcard support
 
   users = {
     defaultUserShell = pkgs.zsh;
@@ -143,10 +145,9 @@
     };
   };
 
-  # Smartcard support
-  services.pcscd.enable = true;
 
   virtualisation.virtualbox.host.enable = true;
+  services.postgresql.enable = true;
 
   system.stateVersion = "18.03";
   nixpkgs.config.allowUnfree = true;
