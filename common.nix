@@ -68,6 +68,7 @@
         alacritty
         dmenu
         grim
+        sway-contrib.grimshot
         libnotify
         mako
         rofi
