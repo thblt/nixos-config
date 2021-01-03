@@ -139,9 +139,19 @@ in
 
     cargo
     cargo-edit
+    cargo-web
+    diesel-cli
     rustc
     rustfmt
     rust-analyzer
+
+    # *** Web
+
+    nodePackages.prettier
+    nodejs
+    sass
+    yarn
+    insomnia # Rest client
 
     # ** *TeX
 
