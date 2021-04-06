@@ -4,14 +4,15 @@ let
     srcRepo = true;
     withGTK2 = false;
     withGTK3 = false; # GTK3 Emacs isn't wayland-native, it just adds the gtk bug https://emacshorrors.com/posts/psa-emacs-is-not-a-proper-gtk-application.html
-    nativeComp = true;
+    nativeComp = false;
   }).overrideAttrs ({version, ...}: {
         # name = "emacs-${version}-thblt";
-    version = "28.1";
+    version = "28.0.50";
     src = builtins.fetchGit {
       url = "git://git.savannah.gnu.org/emacs.git";
-      rev = "c390141d39790bda2ac836a6ae03d5f02c58cdd4";
-      #ref = "emacs-27.1";
+      #rev = "3819d4a9e794ca3a0f4c63c9197822cc7ea59653"; #27.2
+      rev = "738266240dc1a19911770bf676330aa72352da79"; # 28.50 (2021-04-06)
+      #ref = "emacs-27.2";
     };
     autoconf = true;
     automake = true;
@@ -87,8 +88,8 @@ in
 
     # ** Emacs and friends
 
-    (emacs.override { withGTK3 = false; nativeComp = false; })
-    # emacsPrime
+    #(emacs.override { withGTK3 = false; nativeComp = false; })
+    emacsPrime
     isync
     aspell
     aspellDicts.fr
