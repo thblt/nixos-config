@@ -18,7 +18,7 @@
 
   # Use the systemd-boot EFI boot loader.
   boot = {
-    extraModulePackages = [ config.boot.kernelPackages.exfat-nofuse ];
+    extraModulePackages = [];
     loader = {
       systemd-boot = {
         enable = true;
