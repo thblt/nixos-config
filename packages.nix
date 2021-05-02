@@ -67,15 +67,15 @@ let
     chromium
     evince
     (firefox.override { extraNativeMessagingHosts = [ passff-host ]; })
-    #krita
+    krita
     jabref
     imagemagick
     inkscape
-    #libreoffice
+    libreoffice
     gnome3.nautilus
     qrencode
     scantailor-advanced
-    #scribus
+    scribus
     transmission-gtk
     vlc
     youtube-dl
@@ -124,7 +124,6 @@ let
     haskellPackages.haskell-language-server
     hlint
     haskellPackages.hoogle
-    stylish-haskell
     stack
 
     # *** Python
