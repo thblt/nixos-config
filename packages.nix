@@ -4,22 +4,21 @@ let
     srcRepo = true;
     withGTK2 = false;
     withGTK3 = false; # GTK3 Emacs isn't wayland-native, it just adds the gtk bug https://emacshorrors.com/posts/psa-emacs-is-not-a-proper-gtk-application.html
-    nativeComp = false;
+    nativeComp = true;
   }).overrideAttrs ({version, ...}: {
-        # name = "emacs-${version}-thblt";
+    # name = "emacs-${version}-thblt";
     version = "28.0.50";
     src = builtins.fetchGit {
       url = "git://git.savannah.gnu.org/emacs.git";
-      #rev = "3819d4a9e794ca3a0f4c63c9197822cc7ea59653"; #27.2
-      rev = "738266240dc1a19911770bf676330aa72352da79"; # 28.50 (2021-04-06)
+      rev="a9560a2b51191bbd832641fb8b0f9d88e89b5d36";
       #ref = "emacs-27.2";
     };
     autoconf = true;
     automake = true;
     texinfo = true;
     patches = [];
-      });
-in
+  });
+  in
 {
   #chromium.enablePepperFlash = true;
   # oraclejdk.accept_license = true;
@@ -68,15 +67,15 @@ in
     chromium
     evince
     (firefox.override { extraNativeMessagingHosts = [ passff-host ]; })
-    krita
+    #krita
     jabref
     imagemagick
     inkscape
-    libreoffice
+    #libreoffice
     gnome3.nautilus
     qrencode
     scantailor-advanced
-    scribus
+    #scribus
     transmission-gtk
     vlc
     youtube-dl
@@ -125,6 +124,7 @@ in
     haskellPackages.haskell-language-server
     hlint
     haskellPackages.hoogle
+    stylish-haskell
     stack
 
     # *** Python
