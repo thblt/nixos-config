@@ -75,7 +75,7 @@ let
     gnome3.nautilus
     qrencode
     scantailor-advanced
-    scribus
+    scribusUnstable
     transmission-gtk
     vlc
     youtube-dl
@@ -124,6 +124,7 @@ let
     haskellPackages.haskell-language-server
     hlint
     haskellPackages.hoogle
+    stylish-haskell
     stack
 
     # *** Python
