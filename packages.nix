@@ -75,6 +75,7 @@ let
     gnome3.nautilus
     qrencode
     scantailor-advanced
+    scid-vs-pc
     scribusUnstable
     transmission-gtk
     vlc
@@ -102,6 +103,7 @@ let
     # *** Language-independent
 
     cloc
+    ctags
     gitFull
     meld
     nix-prefetch-scripts
