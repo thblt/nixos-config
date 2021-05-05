@@ -56,6 +56,8 @@
   # i18n
   i18n.defaultLocale = "fr_FR.UTF-8";
   console.keyMap = "fr-bepo";
+  services.xserver.layout = "fr";
+  services.xserver.xkbVariant = "bepo";
 
   # Time
   time.timeZone = "Europe/Paris";
