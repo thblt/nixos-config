@@ -132,7 +132,7 @@
   ];
 
   services.keybase.enable = true;
-  services.gnome3.gnome-keyring.enable = pkgs.lib.mkForce false;
+  services.gnome.gnome-keyring.enable = pkgs.lib.mkForce false;
   services.pcscd.enable = true;   # Smartcard support
   programs.gnupg.agent.pinentryFlavor = "gtk2";
 
