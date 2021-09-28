@@ -10,7 +10,7 @@ let
     version = "28.0.50";
     src = builtins.fetchGit {
       url = "git://git.savannah.gnu.org/emacs.git";
-      rev="0377737c9b3c72dd45f32ec0ffa6c4fa9cb0203d";
+      rev="76e846f92a3c625fe524c81aa996327fba5a9e65";
       #ref = "emacs-27.2";
     };
     autoconf = true;
