@@ -29,4 +29,6 @@
       preLVM = true;
 	  };
   };
+
+  services.upower.enable = true;
 }
