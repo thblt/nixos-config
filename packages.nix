@@ -18,7 +18,7 @@ let
     texinfo = true;
     patches = [];
   });
-  in
+in
 {
   #chromium.enablePepperFlash = true;
   # oraclejdk.accept_license = true;
@@ -31,7 +31,6 @@ let
     tmux
 
     # ** Common system utilities
-
     acpi lm_sensors
     bind
     file
@@ -64,6 +63,7 @@ let
 
     # *** Apps
 
+    auto-multiple-choice
     chromium
     evince
     (firefox.override { extraNativeMessagingHosts = [ passff-host ]; })
@@ -160,7 +160,13 @@ let
 
     asymptote
     lyx
-    #texlive.biber
-    texlive.combined.scheme-full
+    #texlive.combined.scheme-full
+    (texlive.combine {
+      inherit (pkgs.texlive) scheme-full;
+      extra =
+        {
+          pkgs = [ auto-multiple-choice ];
+        };
+    })
   ];
 }

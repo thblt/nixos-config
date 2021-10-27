@@ -127,6 +127,7 @@
   in [
     # iosevkaTerm
     pkgs.iosevka
+    pkgs.libertine
     pkgs.open-sans
     pkgs.symbola
   ];
