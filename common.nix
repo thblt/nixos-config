@@ -66,19 +66,20 @@
   programs = {
     sway = {
       enable = true;
+      wrapperFeatures.gtk = true;
       extraPackages = with pkgs; [
         alacritty
-        dmenu
+        fuzzel
         grim
         sway-contrib.grimshot
         libnotify
         mako
-        rofi
         swayidle
         swaylock
         udiskie
         waybar
         wl-clipboard
+        # xwayland.
         xorg.xev
         xsel
         xwayland

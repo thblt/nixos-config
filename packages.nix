@@ -48,7 +48,9 @@ in
 
     # ** Utilities
 
+    (import ./packages/aspell-merge3.nix)
     bc
+    gpp
     graphviz
     pandoc
     udiskie
@@ -59,12 +61,13 @@ in
     gopass
     pinentry
 
-    # ** X11 and X utilities
+    # ** Graphical utilities and appliations
 
     # *** Apps
 
     auto-multiple-choice
     chromium
+    element-desktop
     evince
     (firefox.override { extraNativeMessagingHosts = [ passff-host ]; })
     krita
@@ -72,11 +75,12 @@ in
     imagemagick
     inkscape
     libreoffice
+    gnome3.eog
     gnome3.nautilus
     qrencode
-    scantailor-advanced
+    # scantailor-advanced
     scid-vs-pc
-    scribusUnstable
+    # scribusUnstable
     transmission-gtk
     vlc
     youtube-dl
@@ -84,7 +88,7 @@ in
 
     # *** Icon/cursor themes
 
-    gnome3.adwaita-icon-theme # For large mouse pointers
+    # gnome3.adwaita-icon-theme # For large mouse pointers
 
     # ** Emacs and friends
 
@@ -110,7 +114,7 @@ in
     ripgrep
     llvmPackages.bintools  # This is generally useful.
 
-    # ***  The C family
+    # *** The C family
 
     clang
 

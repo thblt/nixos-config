@@ -3,3 +3,4 @@ cachix/**
 cachix.nix
 configuration.nix
 hardware-configuration.nix
+result
