@@ -3,10 +3,10 @@ let
   f = { mkDerivation, base, bytestring, containers, lib }:
     mkDerivation {
       pname = "aspell-merge3";
-      version = "0.1.0.0";
+      version = "0.2.0.0";
       src = fetchGit {
         url = "https://github.com/thblt/aspell-merge3";
-        rev = "623020281de8c6349230cdb4af6815260f776ed6";
+        rev = "9e9503655eb1f5935fa86b0d7089beaf14ef70dd";
       };
       isLibrary = false;
       isExecutable = true;
