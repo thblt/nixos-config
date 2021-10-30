@@ -10,7 +10,8 @@ let
     version = "28.0.50";
     src = builtins.fetchGit {
       url = "git://git.savannah.gnu.org/emacs.git";
-      rev="76e846f92a3c625fe524c81aa996327fba5a9e65";
+      # ↓This is the emacs-28 branch, not master.
+      rev="20ebd91a734c3241ca3a9ce15ba81f7357401576";
       #ref = "emacs-27.2";
     };
     autoconf = true;
