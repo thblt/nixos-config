@@ -11,8 +11,9 @@ let
     src = builtins.fetchGit {
       url = "git://git.savannah.gnu.org/emacs.git";
       # ↓This is the emacs-28 branch, not master.
-      rev="20ebd91a734c3241ca3a9ce15ba81f7357401576";
-      #ref = "emacs-27.2";
+      rev="d8c9a9dc23e0c6f38c5138cb8fbb4109a5729a35";
+      # If rev is not in master, ref must be given.
+      ref="emacs-28";
     };
     autoconf = true;
     automake = true;
