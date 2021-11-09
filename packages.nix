@@ -96,6 +96,10 @@ in
 
     #(emacs.override { withGTK3 = false; nativeComp = false; })
     emacsPrime
+    # Install pgtk Emacs under a different name.
+    (pkgs.writeScriptBin "emacs-pgtk" "${pkgs.emacsPgtk}/bin/emacs \"$@\"")
+    # There's no real need for that, but…
+    (pkgs.writeScriptBin "emacsclient-pgtk" "${pkgs.emacsPgtk}/bin/emacsclient \"$@\"")
     isync
     aspell
     aspellDicts.fr
@@ -146,11 +150,12 @@ in
 
     # *** Rust
 
-    cargo
+    latest.rustChannels.stable.rust
+    #latest.rustChannels.stable.rustc
+    #cargo
     cargo-edit
     cargo-web
     diesel-cli
-    rustc
     rustfmt
     rust-analyzer
 
