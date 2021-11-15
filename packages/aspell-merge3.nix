@@ -7,6 +7,7 @@ let
       src = fetchGit {
         url = "https://github.com/thblt/aspell-merge3";
         rev = "9e9503655eb1f5935fa86b0d7089beaf14ef70dd";
+        ref = "main";
       };
       isLibrary = false;
       isExecutable = true;
