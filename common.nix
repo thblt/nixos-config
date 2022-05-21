@@ -71,11 +71,30 @@
   services.xserver.layout = "fr";
   services.xserver.xkbVariant = "bepo";
 
+  # greetd
+
+  services.greetd = {
+    enable = true;
+    settings = {
+      default_session = {
+        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --cmd sway";
+      };
+    };
+  };
+
   # Time
   time.timeZone = "Europe/Paris";
   time.hardwareClockInLocalTime = true;
 
   programs = {
+    command-not-found.enable = true;
+    file-roller.enable = true;
+    gnupg.agent = {
+      enable = true;
+      enableSSHSupport = true;
+    };
+    light.enable = true;
+    ssh.startAgent = false;
     sway = {
       enable = true;
       wrapperFeatures.gtk = true;
@@ -97,13 +116,6 @@
         xwayland
       ];
     };
-    light.enable = true;
-    command-not-found.enable = true;
-    gnupg.agent = {
-      enable = true;
-      enableSSHSupport = true;
-    };
-    ssh.startAgent = false;
     zsh = {
       enable = true;
       autosuggestions.enable = true;
