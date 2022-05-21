@@ -88,6 +88,10 @@ in
     youtube-dl
     zotero
 
+    # *** More apps
+
+    zoom-us
+
     # *** Icon/cursor themes
 
     # gnome3.adwaita-icon-theme # For large mouse pointers
