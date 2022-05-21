@@ -7,13 +7,13 @@ let
     nativeComp = true;
   }).overrideAttrs ({version, ...}: {
     # name = "emacs-${version}-thblt";
-    version = "28.0.50";
+    version = "29.0.50";
     src = builtins.fetchGit {
       url = "git://git.savannah.gnu.org/emacs.git";
-      # ↓This is the emacs-28 branch, not master.
-      rev="0fbfd4253ece9e5271509454cd2bbab5359e4b67";
+      # ↓This is master.
+      rev="dd6a24ebedc9953b1632eeafbd2f3b776afe04db";
       # If rev is not in master, ref must be given.
-      ref="emacs-28";
+      # ref="emacs-28";
     };
     autoconf = true;
     automake = true;
@@ -97,9 +97,9 @@ in
     #(emacs.override { withGTK3 = false; nativeComp = false; })
     emacsPrime
     # Install pgtk Emacs under a different name.
-    (pkgs.writeScriptBin "emacs-pgtk" "${pkgs.emacsPgtk}/bin/emacs \"$@\"")
+    #(pkgs.writeScriptBin "emacs-pgtk" "${pkgs.emacsPgtk}/bin/emacs \"$@\"")
     # There's no real need for that, but…
-    (pkgs.writeScriptBin "emacsclient-pgtk" "${pkgs.emacsPgtk}/bin/emacsclient \"$@\"")
+    #(pkgs.writeScriptBin "emacsclient-pgtk" "${pkgs.emacsPgtk}/bin/emacsclient \"$@\"")
     isync
     aspell
     aspellDicts.fr
