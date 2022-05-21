@@ -128,7 +128,7 @@
   services.printing = {
     enable = true;
     drivers = with pkgs; [
-      samsungUnifiedLinuxDriver
+      samsung-unified-linux-driver
       brgenml1cupswrapper
     ];
   };
