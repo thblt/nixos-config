@@ -6,7 +6,7 @@ let
       version = "0.2.0.0";
       src = fetchGit {
         url = "https://github.com/thblt/aspell-merge3";
-        rev = "9e9503655eb1f5935fa86b0d7089beaf14ef70dd";
+        rev = "86541fbc80f3717ca185747808b1a09ac1cf1885";
         ref = "main";
       };
       isLibrary = false;
@@ -14,7 +14,7 @@ let
       executableHaskellDepends = with haskellPackages; [
         base
         bytestring
-        containers
+        containers_0_6_5_1
         optparse-applicative ];
       description = "Automatic three-way merge for aspell personal dictionaries";
       license = "unknown";
