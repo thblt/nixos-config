@@ -175,10 +175,14 @@
     };
   };
 
+  services.udisks2.enable = true;
+
   virtualisation.virtualbox.host.enable = true;
   #services.postgresql.enable = true;
 
   system.stateVersion = "18.03";
   nixpkgs.config.allowUnfree = true;
   hardware.enableRedistributableFirmware = true;
+
+  # android_sdk.accept_license = true;
 }

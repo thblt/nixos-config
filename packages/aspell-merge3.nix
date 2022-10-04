@@ -14,7 +14,7 @@ let
       executableHaskellDepends = with haskellPackages; [
         base
         bytestring
-        containers_0_6_5_1
+        containers_0_6_6
         optparse-applicative ];
       description = "Automatic three-way merge for aspell personal dictionaries";
       license = "unknown";
