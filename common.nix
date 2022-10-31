@@ -110,6 +110,7 @@
         udiskie
         waybar
         wl-clipboard
+        (import ./packages/wl-ime-type.nix)
         # xwayland.
         xorg.xev
         xsel
