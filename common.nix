@@ -17,15 +17,13 @@
 
   nixpkgs.overlays = [
     # Mozilla
-    (import (builtins.fetchGit {
-      url = "https://github.com/mozilla/nixpkgs-mozilla/";
-      rev = "cf58c4c67b15b402e77a2665b9e7bad3e9293cb2";
-    }))
+    (import
+      (builtins.fetchTarball
+        https://github.com/mozilla/nixpkgs-mozilla/archive/master.tar.gz ))
     # Emacs
-    (import (builtins.fetchGit {
-      url = "https://github.com/nix-community/emacs-overlay";
-      rev = "93fac0add2abcf230b03498b7fa07e10a06a10f2";
-    }))
+    (import
+      (builtins.fetchTarball
+        https://github.com/nix-community/emacs-overlay/archive/master.tar.gz ))
   ];
 
   # Use the systemd-boot EFI boot loader.

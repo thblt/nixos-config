@@ -4,7 +4,8 @@ let
     srcRepo = true;
     withGTK2 = false;
     withGTK3 = false; # GTK3 Emacs isn't wayland-native, it just adds the gtk bug https://emacshorrors.com/posts/psa-emacs-is-not-a-proper-gtk-application.html
-    nativeComp = true;
+    withPgtk = false;
+    nativeComp = false;
   }).overrideAttrs ({version, ...}: {
     # name = "emacs-${version}-thblt";
     version = "29.0.50";
@@ -98,12 +99,11 @@ in
 
     # ** Emacs and friends
 
-    #(emacs.override { withGTK3 = false; nativeComp = false; })
-    emacsPrime
+    # emacsPrime
+    ((emacsPackagesFor emacsPrime).emacsWithPackages (epkgs: [ epkgs.vterm ]))
     # Install pgtk Emacs under a different name.
-    #(pkgs.writeScriptBin "emacs-pgtk" "${pkgs.emacsPgtk}/bin/emacs \"$@\"")
-    # There's no real need for that, but…
-    #(pkgs.writeScriptBin "emacsclient-pgtk" "${pkgs.emacsPgtk}/bin/emacsclient \"$@\"")
+    # (pkgs.writeScriptBin "emacs-pgtk" "${pkgs.emacsPgtk}/bin/emacs \"$@\"")
+    # (pkgs.writeScriptBin "emacsclient-pgtk" "${pkgs.emacsPgtk}/bin/emacsclient \"$@\"")
     isync
     aspell
     aspellDicts.fr
@@ -154,7 +154,9 @@ in
 
     # *** Rust
 
-    latest.rustChannels.stable.rust
+    (latest.rustChannels.stable.rust.override {
+      extensions = [ "rust-src" "rust-analysis" ];})
+    #latest.rustChannels.stable.rust-src
     #latest.rustChannels.stable.rustc
     #cargo
     cargo-edit
