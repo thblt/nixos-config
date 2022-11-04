@@ -46,10 +46,6 @@
   # TRIM
   services.fstrim.enable = true;
 
-  # Video
-  boot.kernelParams  = [ "acpi_rev_override=5" ];
-  # hardware.bumblebee.enable = true;
-
   # Sound
   sound.enable = true;
   hardware.pulseaudio.enable = true;
