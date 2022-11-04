@@ -129,6 +129,10 @@
     ];
   };
 
+  environment.sessionVariables = {
+    MOZ_ENABLE_WAYLAND = "1";
+  };
+
   nix.gc = {
     automatic = true;
     options = "--delete-older-than 8d";
