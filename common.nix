@@ -106,6 +106,7 @@
         wl-clipboard
         (import ./packages/wl-ime-type.nix)
         # xwayland.
+        xdg-utils
         xorg.xev
         xsel
         xwayland
