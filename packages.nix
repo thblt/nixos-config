@@ -3,16 +3,16 @@ let
   emacsPrime = (pkgs.emacs.override {
     srcRepo = true;
     withGTK2 = false;
-    withGTK3 = false; # GTK3 Emacs isn't wayland-native, it just adds the gtk bug https://emacshorrors.com/posts/psa-emacs-is-not-a-proper-gtk-application.html
-    withPgtk = false;
-    nativeComp = false;
+    withGTK3 = true; # GTK3 Emacs isn't wayland-native, it just adds the gtk bug https://emacshorrors.com/posts/psa-emacs-is-not-a-proper-gtk-application.html
+    withPgtk = true;
+    nativeComp = true;
   }).overrideAttrs ({version, ...}: {
     # name = "emacs-${version}-thblt";
     version = "29.0.50";
     src = builtins.fetchGit {
       url = "git://git.savannah.gnu.org/emacs.git";
       # ↓This is master.
-      rev="b7a76f288cc9d3a962cd5790203dc89303e81c97";
+      rev="c3b64985aa6f61886a24974836635284c86478ef";
       # If rev is not in master, ref must be given.
       # ref="emacs-28";
     };
@@ -99,8 +99,8 @@ in
 
     # ** Emacs and friends
 
-    # emacsPrime
-    ((emacsPackagesFor emacsPrime).emacsWithPackages (epkgs: [ epkgs.vterm ]))
+    emacsPrime
+    # ((emacsPackagesFor emacsPrime).emacsWithPackages (epkgs: [ epkgs.vterm ]))
     # Install pgtk Emacs under a different name.
     # (pkgs.writeScriptBin "emacs-pgtk" "${pkgs.emacsPgtk}/bin/emacs \"$@\"")
     # (pkgs.writeScriptBin "emacsclient-pgtk" "${pkgs.emacsPgtk}/bin/emacsclient \"$@\"")
