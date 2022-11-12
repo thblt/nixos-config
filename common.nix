@@ -92,6 +92,9 @@
     sway = {
       enable = true;
       wrapperFeatures.gtk = true;
+      extraSessionCommands = ''
+      export MOZ_ENABLE_WAYLAND=1
+      '';
       extraPackages = with pkgs; [
         alacritty
         fuzzel
@@ -127,10 +130,6 @@
       samsung-unified-linux-driver
       brgenml1cupswrapper
     ];
-  };
-
-  environment.sessionVariables = {
-    MOZ_ENABLE_WAYLAND = "1";
   };
 
   nix.gc = {
