@@ -12,7 +12,7 @@ let
     src = builtins.fetchGit {
       url = "git://git.savannah.gnu.org/emacs.git";
       # ↓This is master.
-      rev="c3b64985aa6f61886a24974836635284c86478ef";
+      rev="f176a36f4629b56c9fd9e3fc15aebd04a168c4f5";
       # If rev is not in master, ref must be given.
       # ref="emacs-28";
     };
