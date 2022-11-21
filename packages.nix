@@ -32,6 +32,7 @@ in
     # ** Shell
 
     tmux
+    fzf
 
     # ** Common system utilities
     acpi lm_sensors
@@ -119,6 +120,7 @@ in
     cloc
     ctags
     gitFull
+    gnumake
     meld
     nix-prefetch-scripts
     ripgrep
