@@ -75,7 +75,6 @@ in
     evince
     (firefox.override { extraNativeMessagingHosts = [ passff-host ]; })
     krita
-    jabref
     imagemagick
     inkscape
     libreoffice
