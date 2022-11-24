@@ -35,7 +35,6 @@
       preLVM = true;
     };
   };
-  fileSystems."/".autoResize = true;
 
   boot.kernelParams  = [ "acpi_rev_override=5" ];
 
