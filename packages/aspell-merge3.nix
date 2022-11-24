@@ -4,10 +4,11 @@ let
     mkDerivation {
       pname = "aspell-merge3";
       version = "0.2.0.0";
-      src = fetchGit {
-        url = "https://github.com/thblt/aspell-merge3";
+      src = fetchFromGitHub {
+        owner = "thblt";
+        repo = "aspell-merge3";
         rev = "86541fbc80f3717ca185747808b1a09ac1cf1885";
-        ref = "main";
+        sha256 = "sha256-iJOOTdtlMIIpcVHKFYUYsAp0XtGNcGMVffdi/Tcj7nU=";
       };
       isLibrary = false;
       isExecutable = true;
