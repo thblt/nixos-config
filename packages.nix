@@ -99,8 +99,9 @@ in
 
     # ** Emacs and friends
 
-    emacsPrime
-    # ((emacsPackagesFor emacsPrime).emacsWithPackages (epkgs: [ epkgs.vterm ]))
+    # emacsPrime
+    # emacsPgtkNativeComp
+    ((emacsPackagesFor emacsPgtkNativeComp).emacsWithPackages (epkgs: [ epkgs.vterm ]))
     # Install pgtk Emacs under a different name.
     # (pkgs.writeScriptBin "emacs-pgtk" "${pkgs.emacsPgtk}/bin/emacs \"$@\"")
     # (pkgs.writeScriptBin "emacsclient-pgtk" "${pkgs.emacsPgtk}/bin/emacsclient \"$@\"")
