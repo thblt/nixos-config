@@ -99,19 +99,15 @@ in
 
     # ** Emacs and friends
 
-    # emacsPrime
-    # emacsPgtkNativeComp
-    ((emacsPackagesFor emacsPgtkNativeComp).emacsWithPackages (epkgs: [ epkgs.vterm ]))
-    # Install pgtk Emacs under a different name.
-    # (pkgs.writeScriptBin "emacs-pgtk" "${pkgs.emacsPgtk}/bin/emacs \"$@\"")
-    # (pkgs.writeScriptBin "emacsclient-pgtk" "${pkgs.emacsPgtk}/bin/emacsclient \"$@\"")
+    ((emacsPackagesFor emacsPgtk).emacsWithPackages (epkgs: [ epkgs.vterm ]))
+    # (pkgs.writeScriptBin "emacs-treesit" "${pkgs.emacsGitTreeSitter}/bin/emacs \"$@\"")
     isync
     aspell
     aspellDicts.fr
     aspellDicts.en
     hunspell
     hunspellDicts.fr-any
-    notmuch
+    mu
 
     # ** Programming tools
 
