@@ -56,6 +56,7 @@ in
     bc
     gpp
     graphviz
+    jq
     pandoc
     udiskie
 
@@ -99,7 +100,8 @@ in
 
     # ** Emacs and friends
 
-    ((emacsPackagesFor emacsPgtk).emacsWithPackages (epkgs: [ epkgs.vterm ]))
+    ((emacsPackagesFor emacsPgtk).emacsWithPackages
+      (epkgs: [ epkgs.vterm epkgs.notmuch ]))
     # (pkgs.writeScriptBin "emacs-treesit" "${pkgs.emacsGitTreeSitter}/bin/emacs \"$@\"")
     isync
     aspell
@@ -108,6 +110,11 @@ in
     hunspell
     hunspellDicts.fr-any
     mu
+    notmuch
+    afew
+
+    # enemies
+    vscodium
 
     # ** Programming tools
 
@@ -153,11 +160,11 @@ in
     # *** Rust
 
     (latest.rustChannels.stable.rust.override {
-      extensions = [ "rust-src" "rust-analysis" ];})
+      extensions = [ "rust-src" #"rust-analysis"
+                   ];})
+    # rustup
     #latest.rustChannels.stable.rust-src
     #latest.rustChannels.stable.rustc
-    #cargo
-    cargo-edit
     cargo-web
     diesel-cli
     rustfmt
