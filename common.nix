@@ -49,6 +49,8 @@
   # Sound
   sound.enable = true;
   hardware.pulseaudio.enable = true;
+  hardware.bluetooth.enable = true;
+  services.blueman.enable = true;
 
   # Networking
   networking.networkmanager.enable = true;
