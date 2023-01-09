@@ -59,7 +59,7 @@ in
     pandoc
     udiskie
 
-    # ** Crypto
+    # ** Cryptography
 
     gnupg1compat
     gopass

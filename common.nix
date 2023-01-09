@@ -1,4 +1,5 @@
-# NixOS configuration bits I probably want in all my machines.
+# NixOS configuration bits I probably want in all my (desktop)
+# machines.
 #
 # The computers this supports or has supported are:
 #
@@ -68,7 +69,6 @@
   services.xserver.xkbVariant = "bepo";
 
   # greetd
-
   services.greetd = {
     enable = true;
     settings = {
