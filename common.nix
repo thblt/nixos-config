@@ -125,6 +125,8 @@
     };
   };
 
+  services.ddccontrol.enable = true;
+
   # Printing
   services.printing = {
     enable = true;
