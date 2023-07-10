@@ -100,7 +100,7 @@ in
 
     # ** Emacs and friends
 
-    ((emacsPackagesFor emacsPgtk).emacsWithPackages
+    ((emacsPackagesFor emacsUnstablePgtk).emacsWithPackages
       (epkgs: [ epkgs.vterm epkgs.notmuch ]))
     # (pkgs.writeScriptBin "emacs-treesit" "${pkgs.emacsGitTreeSitter}/bin/emacs \"$@\"")
     isync
