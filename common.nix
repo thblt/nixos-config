@@ -142,7 +142,7 @@
   };
 
   fonts.fontDir.enable = true;
-  fonts.fonts = let
+  fonts.packages = let
     iosevkaTerm = pkgs.iosevka.override {
       set = "thblt";
       privateBuildPlan = {
