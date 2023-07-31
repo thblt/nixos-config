@@ -100,8 +100,12 @@ in
 
     # ** Emacs and friends
 
-    ((emacsPackagesFor emacsUnstablePgtk).emacsWithPackages
-      (epkgs: [ epkgs.vterm epkgs.notmuch ]))
+    ((emacsPackagesFor emacs29-pgtk).emacsWithPackages
+      (epkgs: with epkgs; [ vterm notmuch treesit-grammars.with-all-grammars ] ))
+    # Emacs overlay:
+    # ((emacsPackagesFor emacsUnstablePgtk).emacsWithPackages
+    #   (epkgs: [ epkgs.vterm epkgs.notmuch ]))
+
     # (pkgs.writeScriptBin "emacs-treesit" "${pkgs.emacsGitTreeSitter}/bin/emacs \"$@\"")
     isync
     aspell
