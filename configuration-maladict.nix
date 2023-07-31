@@ -24,7 +24,7 @@
   powerManagement.powertop.enable = pkgs.lib.mkForce false;
 
   # console.font = pkgs.lib.mkForce "${pkgs.terminus_font}/share/consolefonts/ter-i32n.psf.gz"; # HiDPI console
-  hardware.video.hidpi.enable = true;
+  # hardware.video.hidpi.enable = true;
 
   # Use the systemd-boot EFI boot loader.
   # TODO Find a way to move most of this to common.
