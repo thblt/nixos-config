@@ -53,6 +53,7 @@ in
     # ** Utilities
 
     (import ./packages/aspell-merge3.nix)
+    (import ./packages/pgp-words.nix)
     bc
     gpp
     graphviz
