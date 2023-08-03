@@ -3,16 +3,16 @@
 with (import <nixpkgs> {});
 rustPlatform.buildRustPackage rec {
   pname = "pgp-words";
-  version = "0.1.0.0";
+  version = "0.3.0.0";
   src = fetchFromGitHub {
     owner = "thblt";
     repo = "pgp-words.rs";
-    rev = "a99a345f6d984b4f65b08593ff8e0dcc45143f85";
+    rev = "4f20806663051ab96125d6d72115793c3d0cc441";
     # sha256 = lib.fakeHash; # To get the correct hash from the failed
     # build.
-    sha256 = "sha256-coopE2BlA9GM/JxSAK+N/g2CIf2iwQ0GHaueEgJLsyA=";
+    sha256 = "sha256-LJOaZJqc/3I+J/pOSi0noX/5BHElukeWIxIkeyFiFSc=";
   };
-  cargoHash = "sha256-+b8ubVfybGA4NAu39GmYGwDAUnabbBN1VcKgv84xbzk=";
+  cargoHash = "sha256-GRp6krNSs/bWcnDUp+PHIFiTvXIKZsaYhMkhGkCHosA=";
 
   meta = with lib; {
     description = "Make hex sequences easier to communicate over the phone.";
