@@ -1,6 +1,4 @@
 with (import <nixpkgs> {});
-# let
-#   f = { mkDerivation, base, bytestring, containers, lib }:
 haskellPackages.mkDerivation {
   pname = "aspell-merge3";
   version = "0.2.0.0";
@@ -21,11 +19,3 @@ haskellPackages.mkDerivation {
   license = "unknown";
   hydraPlatforms = lib.platforms.none;
 }
-
-  # haskellPackages = pkgs.haskellPackages;
-  # variant = pkgs.lib.id;
-
-  # drv = variant (haskellPackages.callPackage f {});
-  # in
-
-  # if pkgs.lib.inNixShell then drv.env else drv
