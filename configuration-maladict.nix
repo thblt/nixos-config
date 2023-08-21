@@ -39,5 +39,5 @@
   boot.kernelParams  = [ "acpi_rev_override=5" ];
 
   # Rainbow keyboard
-  hardware.ckb-next.enable = true;
+  # hardware.ckb-next.enable = true;
 }

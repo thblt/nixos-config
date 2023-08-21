@@ -62,12 +62,23 @@
   # Talk with iOS hardware
   # services.usbmuxd.enable = true;
 
-  # i18n
+  # Keyboard and i18n
   i18n.defaultLocale = "fr_FR.UTF-8";
   console.keyMap = "fr-bepo";
   services.xserver.layout = "fr";
   services.xserver.xkbVariant = "bepo";
+  services.interception-tools = {
+    enable = true;
+    plugins = with pkgs.interception-tools-plugins; [ caps2esc ];
+    udevmonConfig = ''
+      - JOB: "${pkgs.interception-tools}/bin/intercept -g $DEVNODE | ${pkgs.interception-tools-plugins.caps2esc}/bin/caps2esc -m 1 | ${pkgs.interception-tools}/bin/uinput -d $DEVNODE"
+        DEVICE:
+          EVENTS:
+            EV_KEY: [KEY_CAPSLOCK, KEY_ESC]
+    '';
 
+
+  };
   # greetd
   services.greetd = {
     enable = true;
