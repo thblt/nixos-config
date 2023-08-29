@@ -12,3 +12,6 @@ boring.  To use it, I:
 The bulk of the config is in =common.nix=, the packages in
 =packages.nix=.  I haven't switched to home-manager yet, so this works
 with my [[https://github.com/thblt/dotfiles/][dotfiles]] and my [[https://github.com/thblt/.emacs.d/][emacs configuration]].
+
+The ASCII font used for the hostname header in configuration-*.nix is
+called [[https://patorjk.com/software/taag/#p=display&f=Bloody&t=Hostame][Bloody]].
