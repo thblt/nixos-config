@@ -3,11 +3,11 @@
 #
 # The computers this supports or has supported are:
 #
-# - Rudiger :: MacPro 3,1    [retired]
-# - Anna :: MacbookAir 4,1   [retired]
-# - Wednesday :: (Some Asus gamer laptop I've had for a few weeks) [given away]
-# - Maladict :: XPS 15 9560
 # - Dru :: Lenovo Thinkpad X270
+# - Maladict :: XPS 15 9560
+# - Wednesday :: (Some Asus gamer laptop I've had for a few weeks) [given away]
+# - Anna :: MacbookAir 4,1   [retired]
+# - Rudiger :: MacPro 3,1    [retired]
 
 { config, pkgs,  ... }:
 {
