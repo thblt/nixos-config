@@ -21,8 +21,6 @@
       ./common.nix
     ];
 
-  powerManagement.powertop.enable = pkgs.lib.mkForce false;
-
   # console.font = pkgs.lib.mkForce "${pkgs.terminus_font}/share/consolefonts/ter-i32n.psf.gz"; # HiDPI console
   # hardware.video.hidpi.enable = true;
 

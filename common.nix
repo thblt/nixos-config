@@ -57,7 +57,6 @@
   networking.networkmanager.enable = true;
 
   # @FIXME This breaks optirun
-  powerManagement.powertop.enable = true;
 
   # Talk with iOS hardware
   # services.usbmuxd.enable = true;
