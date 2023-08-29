@@ -35,6 +35,7 @@
         enable = true;
         editor = false;
         consoleMode = "1"; # HiDPI
+        memtest86.enable = true;
       };
       timeout = 30;
       efi.canTouchEfiVariables = true;
