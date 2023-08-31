@@ -3,7 +3,8 @@
 #
 # The computers this supports or has supported are:
 #
-# - Dru :: Lenovo Thinkpad X270
+# - Margalotta :: Desktop (i5-13600K + RTX4070)
+# - Dru :: Thinkpad X270
 # - Maladict :: XPS 15 9560
 # - Wednesday :: (Some Asus gamer laptop I've had for a few weeks) [given away]
 # - Anna :: MacbookAir 4,1   [retired]
