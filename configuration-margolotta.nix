@@ -29,14 +29,13 @@
   };
   hardware.nvidia = {
     open = true;
-    powerManagement.enable = true;
     nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    modesetting.enable = true;
   };
   services.xserver.videoDrivers = ["nvidia"];
+  programs.sway.extraOptions = [ "--unsupported-gpu" ];
   boot.initrd.luks.devices = {
     crypt = {
-      #      device = "/dev/nvme0n1p2";
       allowDiscards = true;
       preLVM = true;
     };
