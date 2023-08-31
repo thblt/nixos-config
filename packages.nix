@@ -46,6 +46,7 @@ in
     tldr
     tree
     unrar
+    usbutils
     wget
     whois
     zip unzip
@@ -73,19 +74,23 @@ in
 
     auto-multiple-choice
     chromium
+    eduke32
     element-desktop
     evince
     (firefox.override { extraNativeMessagingHosts = [ passff-host ]; })
+    gzdoom
+    hugo
     krita
     imagemagick
     inkscape
     libreoffice
     gnome3.eog
     gnome3.nautilus
+    neofetch # I know.
     qrencode
-    # scantailor-advanced
     scid-vs-pc
-    # scribusUnstable
+    signal-desktop
+    spotify
     transmission-gtk
     vlc
     youtube-dl

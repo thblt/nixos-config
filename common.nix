@@ -35,7 +35,6 @@
       systemd-boot = {
         enable = true;
         editor = false;
-        consoleMode = "1"; # HiDPI
         memtest86.enable = true;
       };
       timeout = 30;
@@ -122,7 +121,6 @@
         waybar
         wl-clipboard
         (import ./packages/wl-ime-type.nix)
-        # xwayland.
         xdg-utils
         xorg.xev
         xsel
