@@ -48,15 +48,13 @@
     '';
   };
 
-}
-
-    boot.initrd.luks.devices = {
-      crypt = {
-        allowDiscards = true;
-        preLVM = true;
-      };
+  boot.initrd.luks.devices = {
+    crypt = {
+      allowDiscards = true;
+      preLVM = true;
     };
+  };
 
-    # Rainbow keyboard
-    hardware.ckb-next.enable = true;
+  # Rainbow keyboard
+  hardware.ckb-next.enable = true;
 }
