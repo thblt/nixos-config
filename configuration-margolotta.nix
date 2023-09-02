@@ -41,13 +41,13 @@
   services.xserver.videoDrivers = ["nvidia"];
   programs.sway = {
     extraOptions = [ "--unsupported-gpu" ];
-    # @FIXME vvv There's a default value in common.nix, try to extend rather than replace.
+    # Note to self: this value is of type lines, so it will merge
+    # automatically with the default in common.nix.
     extraSessionCommands = ''
-    export MOZ_ENABLE_WAYLAND=1
     export WLR_NO_HARDWARE_CURSORS=1
     '';
   };
-
+  programs.hyprland.enable = true;
   boot.initrd.luks.devices = {
     crypt = {
       allowDiscards = true;
