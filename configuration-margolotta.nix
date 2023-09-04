@@ -10,7 +10,7 @@
 # ░      ░     ░   ▒     ░░   ░ ░ ░   ░ ░ ░ ░ ▒    ░ ░   ░ ░ ░ ▒    ░        ░        ░   ▒
 #        ░         ░  ░   ░           ░     ░ ░      ░  ░    ░ ░                          ░  ░
 
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   networking.hostName = "margolotta";
