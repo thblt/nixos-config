@@ -21,11 +21,11 @@
     # Mozilla
     (import
       (builtins.fetchTarball
-        https://github.com/mozilla/nixpkgs-mozilla/archive/master.tar.gz ))
+        "https://github.com/mozilla/nixpkgs-mozilla/archive/master.tar.gz" ))
     # Emacs
     # (import
     #   (builtins.fetchTarball
-    #     https://github.com/nix-community/emacs-overlay/archive/master.tar.gz ))
+    #     "https://github.com/nix-community/emacs-overlay/archive/master.tar.gz" ))
   ];
 
   # Use the systemd-boot EFI boot loader.
