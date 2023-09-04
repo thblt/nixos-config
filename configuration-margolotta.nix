@@ -23,6 +23,16 @@
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
+  boot.loader.systemd-boot = {
+    # BitLocker doesn't support boot chaining.  This sets the
+    # next-boot EFI variable to the Windows 11 loader and reboot when
+    # Win11 is selected.
+    extraInstallCommands = ''echo "reboot-for-bitlocker yes" >> /boot/loader/loader.conf'';
+    # v Pending PR #253260 v
+    # rebootForBitlocker = true;
+    configurationLimit = 10;
+  };
+
   # Nvidia
   hardware  = {
     nvidia = {
@@ -30,7 +40,6 @@
       nvidiaSettings = true;
       modesetting.enable = true;
       powerManagement.enable = true;
-      # forceFullCompositionPipeline = true;
     };
     opengl = {
       enable = true;
