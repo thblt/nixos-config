@@ -124,6 +124,9 @@ in
     afew
 
     # enemies
+    helix
+    neovim
+    neovim-qt
     vscodium
 
     # ** Programming tools
