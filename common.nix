@@ -68,7 +68,9 @@
   services.xserver.layout = "fr";
   services.xserver.xkbVariant = "bepo";
   services.interception-tools = {
-    enable = true;
+    # Disabled, because the capslock ctrl/esc dual function key breaks
+    # ctrl-click.
+    enable = false;
     plugins = with pkgs.interception-tools-plugins; [ caps2esc ];
     udevmonConfig = ''
       - JOB: "${pkgs.interception-tools}/bin/intercept -g $DEVNODE | ${pkgs.interception-tools-plugins.caps2esc}/bin/caps2esc -m 1 | ${pkgs.interception-tools}/bin/uinput -d $DEVNODE"
