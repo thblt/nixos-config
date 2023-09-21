@@ -9,7 +9,7 @@ stdenv.mkDerivation {
   };
   nnnnoInstall = true;
   buildInputs =
-    [ pkgconfig
+    [ pkg-config
       scdoc
       wayland
       wayland-scanner
