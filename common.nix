@@ -206,5 +206,7 @@
   nixpkgs.config.allowUnfree = true;
   hardware.enableRedistributableFirmware = true;
 
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
   # android_sdk.accept_license = true;
 }
