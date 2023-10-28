@@ -83,6 +83,7 @@ in
     krita
     imagemagick
     inkscape
+    kicad
     libreoffice
     gnome3.eog
     gnome3.nautilus
