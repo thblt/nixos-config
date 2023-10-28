@@ -77,7 +77,7 @@ in
     eduke32
     element-desktop
     evince
-    (firefox.override { extraNativeMessagingHosts = [ passff-host ]; })
+    (firefox.override { nativeMessagingHosts = [ passff-host ]; })
     gzdoom
     hugo
     krita
