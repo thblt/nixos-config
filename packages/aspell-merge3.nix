@@ -13,7 +13,7 @@ haskellPackages.mkDerivation {
   executableHaskellDepends = with haskellPackages; [
     base
     bytestring
-    containers_0_6_7
+    containers
     optparse-applicative ];
   description = "Automatic three-way merge for aspell personal dictionaries";
   license = "unknown";
