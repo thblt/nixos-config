@@ -78,9 +78,10 @@
           EVENTS:
             EV_KEY: [KEY_CAPSLOCK, KEY_ESC]
     '';
-
-
   };
+
+  hardware.keyboard.qmk.enable = true;
+
   # greetd
   services.greetd = {
     enable = true;

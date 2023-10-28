@@ -87,6 +87,7 @@ in
     gnome3.eog
     gnome3.nautilus
     neofetch # I know.
+    qmk
     qrencode
     scid-vs-pc
     signal-desktop
