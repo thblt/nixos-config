@@ -56,6 +56,7 @@
 
   # Networking
   networking.networkmanager.enable = true;
+  programs.kdeconnect.enable = true;
 
   # @FIXME This breaks optirun
 
