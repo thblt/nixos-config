@@ -74,6 +74,7 @@ in
 
     auto-multiple-choice
     chromium
+    discord
     eduke32
     element-desktop
     evince
