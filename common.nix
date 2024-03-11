@@ -66,8 +66,10 @@
   # Keyboard and i18n
   i18n.defaultLocale = "fr_FR.UTF-8";
   console.keyMap = "fr-bepo";
-  services.xserver.layout = "fr";
-  services.xserver.xkbVariant = "bepo";
+  services.xserver.xkb= {
+    layout = "fr";
+    variant = "bepo";
+  };
   services.interception-tools = {
     # Disabled, because the capslock ctrl/esc dual function key breaks
     # ctrl-click.
@@ -81,7 +83,11 @@
     '';
   };
 
-  hardware.keyboard.qmk.enable = true;
+  # Funny inputs
+  hardware = {
+    keyboard.qmk.enable = true;
+    spacenavd.enable = true;
+  };
 
   # greetd
   services.greetd = {
