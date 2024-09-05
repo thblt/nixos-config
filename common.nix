@@ -162,22 +162,10 @@
   };
 
   fonts.fontDir.enable = true;
-  fonts.packages = let
-    iosevkaTerm = pkgs.iosevka.override {
-      set = "thblt";
-      privateBuildPlan = {
-        family = "Iosevka";
-        design = [ "term"  ];
-      };
-    };
-    # Note to self: `slab` isn't distinct enough from `sans` for the
-    # two to be used together.
-  in [
-    # iosevkaTerm
+  fonts.packages = [
     pkgs.iosevka
     pkgs.libertine
     pkgs.open-sans
-    pkgs.symbola
   ];
 
   services.keybase.enable = false;
