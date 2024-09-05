@@ -96,7 +96,7 @@ in
     spotify
     transmission-gtk
     vlc
-    youtube-dl
+    yt-dlp
     zotero
 
     # *** More apps
