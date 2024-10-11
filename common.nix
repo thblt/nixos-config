@@ -172,7 +172,7 @@
   services.gnome.gnome-keyring.enable = pkgs.lib.mkForce false;
   services.pcscd.enable = true;   # Smartcard support
   programs.gnupg.agent.pinentryPackage = pkgs.pinentry-gtk2;
-  programs.steam.enable = true;
+  # programs.steam.enable = false
 
   users = {
     defaultUserShell = pkgs.zsh;
