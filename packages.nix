@@ -89,6 +89,7 @@ in
     gnome3.eog
     gnome3.nautilus
     neofetch # I know.
+    nextcloud-client
     qmk
     qrencode
     scid-vs-pc
