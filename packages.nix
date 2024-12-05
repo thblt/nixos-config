@@ -86,8 +86,8 @@ in
     inkscape
     kicad
     libreoffice
-    gnome3.eog
-    gnome3.nautilus
+    eog
+    nautilus
     neofetch # I know.
     nextcloud-client
     qmk
@@ -106,7 +106,7 @@ in
 
     # *** Icon/cursor themes
 
-    # gnome3.adwaita-icon-theme # For large mouse pointers
+    # gnome.adwaita-icon-theme # For large mouse pointers
 
     # ** Emacs and friends
 
