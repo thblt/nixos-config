@@ -95,7 +95,7 @@ in
     scid-vs-pc
     signal-desktop
     spotify
-    transmission-gtk
+    transmission_4-gtk
     vlc
     yt-dlp
     zotero
