@@ -118,6 +118,7 @@
       export MOZ_ENABLE_WAYLAND=1
       '';
       extraPackages = with pkgs; [
+        adwaita-icon-theme
         alacritty
         fuzzel
         grim

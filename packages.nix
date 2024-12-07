@@ -104,10 +104,6 @@ in
 
     zoom-us
 
-    # *** Icon/cursor themes
-
-    # gnome.adwaita-icon-theme # For large mouse pointers
-
     # ** Emacs and friends
 
     ((emacsPackagesFor emacs29-pgtk).emacsWithPackages
