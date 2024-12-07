@@ -49,7 +49,7 @@
   services.fstrim.enable = true;
 
   # Sound
-  hardware.pulseaudio.enable = ;
+  hardware.pulseaudio.enable = false;
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
 
