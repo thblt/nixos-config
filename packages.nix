@@ -113,11 +113,9 @@ in
 
     # (pkgs.writeScriptBin "emacs-treesit" "${pkgs.emacsGitTreeSitter}/bin/emacs \"$@\"")
     isync
-    aspell
-    aspellDicts.fr
-    aspellDicts.en
-    hunspell
-    hunspellDicts.fr-any
+    (aspellWithDicts
+      (dicts: with dicts; [ aspellDicts.fr
+                            aspellDicts.en ]))
     mu
     notmuch
     afew
