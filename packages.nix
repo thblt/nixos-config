@@ -105,9 +105,8 @@ in
     zoom-us
 
     # ** Emacs and friends
-
-    ((emacsPackagesFor emacs29-pgtk).emacsWithPackages
-      (epkgs: with epkgs; [ vterm notmuch treesit-grammars.with-all-grammars ] ))
+    ((emacsPackagesFor emacs30-gtk3).emacsWithPackages
+      (epkgs: with epkgs; [ auctex forge magit vterm notmuch treesit-grammars.with-all-grammars ] ))
     # Emacs overlay:
     # ((emacsPackagesFor emacsUnstablePgtk).emacsWithPackages
     #   (epkgs: [ epkgs.vterm epkgs.notmuch ]))
