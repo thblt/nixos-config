@@ -17,7 +17,7 @@
 
   imports =
     [
-      ./hardware-configuration.nix
+      ./hardware-configuration-dru.nix
       ./common.nix
     ];
 

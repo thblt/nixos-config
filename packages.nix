@@ -1,31 +1,5 @@
-{ config, lib, pkgs, ... }:
-let
-  emacsPrime = (pkgs.emacs.override {
-    srcRepo = true;
-    withGTK2 = false;
-    withGTK3 = true; # GTK3 Emacs isn't wayland-native, it just adds the gtk bug https://emacshorrors.com/posts/psa-emacs-is-not-a-proper-gtk-application.html
-    withPgtk = true;
-    nativeComp = true;
-  }).overrideAttrs ({version, ...}: {
-    # name = "emacs-${version}-thblt";
-    version = "29.0.50";
-    src = builtins.fetchGit {
-      url = "git://git.savannah.gnu.org/emacs.git";
-      # ↓This is master.
-      rev="f176a36f4629b56c9fd9e3fc15aebd04a168c4f5";
-      # If rev is not in master, ref must be given.
-      # ref="emacs-28";
-    };
-    autoconf = true;
-    automake = true;
-    texinfo = true;
-    patches = [];
-  });
-in
+{ pkgs, ... }:
 {
-  #chromium.enablePepperFlash = true;
-  # oraclejdk.accept_license = true;
-
   # Base system programs
   environment.systemPackages = with pkgs; [
 
@@ -53,8 +27,8 @@ in
 
     # ** Utilities
 
-    (import ./packages/aspell-merge3.nix)
-    (import ./packages/pgp-words.nix)
+    # (import ./packages/aspell-merge3.nix)
+    # (import ./packages/pgp-words.nix)
     bc
     gpp
     graphviz
@@ -84,7 +58,7 @@ in
     krita
     imagemagick
     inkscape
-    kicad
+    #kicad
     libreoffice
     eog
     nautilus
@@ -107,11 +81,6 @@ in
     # ** Emacs and friends
     ((emacsPackagesFor emacs30-gtk3).emacsWithPackages
       (epkgs: with epkgs; [ auctex forge magit vterm notmuch treesit-grammars.with-all-grammars ] ))
-    # Emacs overlay:
-    # ((emacsPackagesFor emacsUnstablePgtk).emacsWithPackages
-    #   (epkgs: [ epkgs.vterm epkgs.notmuch ]))
-
-    # (pkgs.writeScriptBin "emacs-treesit" "${pkgs.emacsGitTreeSitter}/bin/emacs \"$@\"")
     isync
     (aspellWithDicts
       (dicts: with dicts; [ aspellDicts.fr
@@ -129,7 +98,6 @@ in
     # ** Programming tools
 
     # *** Language-independent
-
     cloc
     ctags
     gitFull
@@ -138,17 +106,11 @@ in
     nix-prefetch-scripts
     ripgrep
     llvmPackages.bintools  # This is generally useful.
-
-    # *** The C family
-
+    # *** The C family
     clang
-
     # *** Go
-
     go
-
     # *** Haskell
-
     cabal-install
     ghc
     haskellPackages.apply-refact
@@ -157,48 +119,38 @@ in
     haskellPackages.hoogle
     stylish-haskell
     stack
-
-    # *** Python
-
-    python3
-
+    # *** Nix
+    nixd
     # *** Lisps
-
     racket
     chez
-
+    # *** Python
+    python3
+    pylint
+    ruff # LSP
     # *** Rust
-
-    (latest.rustChannels.stable.rust.override {
-      extensions = [ "rust-src" #"rust-analysis"
-                   ];})
-    # rustup
-    #latest.rustChannels.stable.rust-src
-    #latest.rustChannels.stable.rustc
+    pkgs.rust-bin.stable.latest.default
     cargo-web
     diesel-cli
     rustfmt
     rust-analyzer
-
-    # *** Web
-
-    nodePackages.prettier
-    nodejs
-    sass
-    yarn
-    insomnia # Rest client
-
+    # ** Text
+    marksman # LSP for Markdown
     # ** *TeX
-
     asymptote
     lyx
-    #texlive.combined.scheme-full
     (texlive.combine {
-      inherit (pkgs.texlive) scheme-full;
+      inherit (texlive) scheme-full;
       extra =
         {
           pkgs = [ auto-multiple-choice ];
         };
     })
+    # *** Web
+    nodePackages.prettier
+    nodejs
+    sass
+    yarn
+    insomnia # Rest client
   ];
-}
+  }

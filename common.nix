@@ -10,7 +10,7 @@
 # - Anna :: MacbookAir 4,1   [retired]
 # - Rudiger :: MacPro 3,1    [retired]
 
-{ config, pkgs,  ... }:
+{ pkgs,  ... }:
 {
   imports =
     [
@@ -19,9 +19,9 @@
 
   nixpkgs.overlays = [
     # Mozilla
-    (import
-      (builtins.fetchTarball
-        "https://github.com/mozilla/nixpkgs-mozilla/archive/master.tar.gz" ))
+    # (import
+    #   (builtins.fetchTarball
+    #     "https://github.com/mozilla/nixpkgs-mozilla/archive/master.tar.gz" ))
     # Emacs
     # (import
     #   (builtins.fetchTarball
@@ -82,6 +82,31 @@
     '';
   };
 
+  # ------------------
+  # Eog and other gnome apps are slow to start because they're waiting
+  # on a Portal (see XDG Portal).  This seems to be the solution, but
+  # the WLR (wlroots, the library behind sway) portal fails with a
+  # weird error:
+  #
+  #[~] 3 ❱ systemctl --user status xdg-desktop-portal-wlr.service
+  # (...)
+  #       Active: inactive (dead)
+  #         janv. 04 22:49:28 dru systemd[1739]: Portal service
+  # (wlroots implementation) was skipped because of an unmet
+  # condition check (ConditionEnvironment=WAYLAND_DISPLAY).
+  #
+  # ALso, sway.nix seems to always enable xdg.portal.wlr.enable, so
+  # all this vvvvvvvvvvvvvvvvvvvvvvv  is probably not required.
+  #
+  #   xdg.portal.wlr.enable = true; xdg.portal.enable = true;
+  # xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gnome ];
+  #
+  # Also see: https://github.com/emersion/xdg-desktop-portal-wlr/wiki/%22It-doesn't-work%22-Troubleshooting-Checklist
+  #
+  # This is NOT flake-related, although this messages is added in the
+  # same commit that creates flake.nix: the issue appeared before.
+  # ------------------
+
   # Funny inputs
   hardware = {
     keyboard.qmk.enable = true;
@@ -130,7 +155,7 @@
         udiskie
         waybar
         wl-clipboard
-        (import ./packages/wl-ime-type.nix)
+        #(import ./packages/wl-ime-type.nix)
         xdg-utils
         xorg.xev
         xsel
