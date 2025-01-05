@@ -56,13 +56,15 @@
     export WLR_NO_HARDWARE_CURSORS=1
     '';
   };
-  programs.hyprland.enable = true;
+
   boot.initrd.luks.devices = {
     crypt = {
       allowDiscards = true;
       preLVM = true;
     };
   };
+
+  services.ddccontrol.enable = true;
 
   # Rainbow keyboard
   hardware.ckb-next.enable = true;
