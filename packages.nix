@@ -80,7 +80,7 @@
 
     # ** Emacs and friends
     ((emacsPackagesFor emacs30-gtk3).emacsWithPackages
-      (epkgs: with epkgs; [ auctex forge magit vterm notmuch treesit-grammars.with-all-grammars ] ))
+      (epkgs: with epkgs; [ auctex forge magit pdf-tools vterm notmuch treesit-grammars.with-all-grammars ] ))
     isync
     (aspellWithDicts
       (dicts: with dicts; [ aspellDicts.fr
