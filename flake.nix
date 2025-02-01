@@ -10,10 +10,23 @@
     };  };
 
   outputs = { nixpkgs, ... }@inputs: {
+    # DRU (Thinkpad X270)
     nixosConfigurations.dru = nixpkgs.lib.nixosSystem {
          system = "x86_64-linux";
          modules = [
            ./configuration-dru.nix
+           {nixpkgs.overlays = [
+              inputs.rust-overlay.overlays.default
+              inputs.helix.overlays.default
+            ];}
+
+         ];
+    };
+    # MARGOLOTTA
+    nixosConfigurations.margolotta = nixpkgs.lib.nixosSystem {
+         system = "x86_64-linux";
+         modules = [
+           ./configuration-margolotta.nix
            {nixpkgs.overlays = [
               inputs.rust-overlay.overlays.default
               inputs.helix.overlays.default
