@@ -139,7 +139,6 @@
     ruff # LSP
     # *** Rust
     pkgs.rust-bin.stable.latest.default
-    cargo-web
     diesel-cli
     rustfmt
     rust-analyzer
