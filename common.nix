@@ -168,6 +168,9 @@
       syntaxHighlighting.enable = true;
       enableCompletion = true;
     };
+    fish = {
+      enable = true;
+    };
   };
 
   # Printing
@@ -198,7 +201,9 @@
   # programs.steam.enable = false
 
   users = {
-    defaultUserShell = pkgs.zsh;
+    # The NixOS wiki warns NOT to set fish as the login shell, as it's not
+    # posix-compliant.
+    defaultUserShell = pkgs.bash;
     extraUsers.thblt = {
       isNormalUser = true;
       extraGroups = [

@@ -7,6 +7,15 @@
 
     tmux
     fzf
+    grc
+
+    fishPlugins.done
+    fishPlugins.fzf-fish
+    fishPlugins.forgit
+    # fishPlugins.hydro
+    fishPlugins.grc
+    fishPlugins.tide
+    fish-lsp
 
     # ** Common system utilities
     acpi lm_sensors
