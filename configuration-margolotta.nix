@@ -10,18 +10,18 @@
 # ░      ░     ░   ▒     ░░   ░ ░ ░   ░ ░ ░ ░ ▒    ░ ░   ░ ░ ░ ▒    ░        ░        ░   ▒
 #        ░         ░  ░   ░           ░     ░ ░      ░  ░    ░ ░                          ░  ░
 
-{ pkgs, ... }:
+{ config, ... }:
 
 {
   networking.hostName = "margolotta";
 
   imports =
     [
-      ./hardware-configuration.nix
+      ./hardware-configuration-margolotta.nix
       ./common.nix
     ];
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  # boot.kernelPackages = pkgs.linuxPackages_latest;
 
   boot.loader.systemd-boot = {
     # BitLocker doesn't support boot chaining.  This sets the
@@ -34,17 +34,16 @@
   };
 
   # Nvidia
+  graphics = {
+    enable = true;
+  };
   hardware  = {
     nvidia = {
+      package = config.boot.kernelPackages.nvidiaPackages.latest;
       open = true;
       nvidiaSettings = true;
       modesetting.enable = true;
       powerManagement.enable = true;
-    };
-    opengl = {
-      enable = true;
-      driSupport = true;
-      driSupport32Bit = true;
     };
   };
   services.xserver.videoDrivers = ["nvidia"];
