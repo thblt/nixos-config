@@ -67,7 +67,7 @@
     krita
     imagemagick
     inkscape
-    #kicad
+    kicad
     libreoffice
     eog
     nautilus
