@@ -9,10 +9,10 @@
     fzf
     grc
 
+    fishPlugins.autopair
     fishPlugins.done
     fishPlugins.fzf-fish
     fishPlugins.forgit
-    # fishPlugins.hydro
     fishPlugins.grc
     fishPlugins.tide
     fish-lsp
