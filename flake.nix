@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    pgp-words.url = "github:thblt/pgp-words.rs/main";
     helix.url = "github:helix-editor/helix/25.01";
     rust-overlay = {
       url = "github:oxalica/rust-overlay";
@@ -10,15 +11,15 @@
     };
   };
 
-  outputs = { nixpkgs, ... }@inputs: {
+  outputs = inputs@{ self, nixpkgs,... }: {
     # DRU (Thinkpad X270)
     nixosConfigurations.dru = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
+      specialArgs = { inherit inputs; };
       modules = [
         ./configuration-dru.nix
         {nixpkgs.overlays = [
            inputs.rust-overlay.overlays.default
-           inputs.helix.overlays.default
          ];}
 
       ];
@@ -30,7 +31,6 @@
         ./configuration-margolotta.nix
         {nixpkgs.overlays = [
            inputs.rust-overlay.overlays.default
-           inputs.helix.overlays.default
          ];}
       ];
     };

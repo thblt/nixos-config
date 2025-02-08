@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 {
   # Base system programs
   environment.systemPackages = with pkgs; [
@@ -38,6 +38,9 @@
 
     # (import ./packages/aspell-merge3.nix)
     # (import ./packages/pgp-words.nix)
+    inputs.pgp-words.outputs.defaultPackage."${pkgs.system}"
+    inputs.helix.packages."${pkgs.system}".helix
+
     bc
     gpp
     graphviz

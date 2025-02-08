@@ -10,7 +10,7 @@
 # ░ ░  ░   ░░   ░  ░░░ ░ ░
 #    ░       ░        ░
 
-{ config, pkgs,  ... }:
+{ ... }:
 
 {
   networking.hostName = "dru";
@@ -19,6 +19,7 @@
     [
       ./hardware-configuration-dru.nix
       ./common.nix
+      ./packages.nix
     ];
 
   # TODO Find a way to move most of this to common.
