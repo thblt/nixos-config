@@ -27,6 +27,7 @@
     # MARGOLOTTA
     nixosConfigurations.margolotta = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
+      specialArgs = { inherit inputs; };
       modules = [
         ./configuration-margolotta.nix
         {nixpkgs.overlays = [
