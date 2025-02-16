@@ -153,6 +153,8 @@
     diesel-cli
     rustfmt
     rust-analyzer
+    # ** Shell
+    bash-language-server
     # ** Text
     marksman # LSP for Markdown
     # ** *TeX
