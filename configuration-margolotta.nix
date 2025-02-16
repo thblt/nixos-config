@@ -57,4 +57,6 @@
 
   # Rainbow keyboard
   hardware.ckb-next.enable = true;
+
+  system.stateVersion = "24.05";
 }
