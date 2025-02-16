@@ -92,16 +92,67 @@
     zoom-us
 
     # ** Emacs and friends
-    ((emacsPackagesFor emacs30-gtk3).emacsWithPackages (epkgs:
-      with epkgs; [
+    ((emacsPackagesFor emacs30-gtk3).emacsWithPackages
+      (epkgs: with epkgs; [
         auctex
+        auto-compile
+        backline
+        beginend
+        bicycle
+        consult
+        corfu
+        diminish
+        dirvish
+        doom-themes
+        editorconfig
+        eldoc-box
+        embark
+        embark-consult
+        emmet-mode
+        erc-hl-nicks
+        evil-nerd-commenter
+        f
+        flyspell-correct
         forge
+        free-keys
+        haskell-mode
+        hydra
+        loccur
         magit
-        pdf-tools
-        vterm
+        marginalia
+        markdown-mode
+        mwim
+        nix-mode
+        no-littering
         notmuch
+        orderless
+        outline-minor-faces
+        pdf-tools
+        rainbow-mode
+        rg
+        s
+        scpaste
+        shackle
+        smartparens
+        super-save
+        sway
+        tablist
+        treepy
         treesit-grammars.with-all-grammars
-      ]))
+        unfill
+        unkillable-scratch
+        vertico
+        visual-fill-column
+        visual-regexp
+        vterm
+        vundo
+        wgrep
+        with-editor
+        yaml
+        yasnippet
+        aggressive-indent
+      ]
+      ))
     isync
     (aspellWithDicts (dicts: with dicts; [ aspellDicts.fr aspellDicts.en ]))
     mu
