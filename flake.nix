@@ -10,20 +10,17 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixos-wsl.url = "github:nix-community/NixOS-WSL/main";  };
+    nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
+  };
 
-
-  outputs = inputs@{ self, nixpkgs, nixos-wsl,... }: {
+  outputs = inputs@{ self, nixpkgs, nixos-wsl, ... }: {
     # DRU (Thinkpad X270)
     nixosConfigurations.dru = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = { inherit inputs; };
       modules = [
         ./configuration-dru.nix
-        {nixpkgs.overlays = [
-           inputs.rust-overlay.overlays.default
-         ];
-        }
+        { nixpkgs.overlays = [ inputs.rust-overlay.overlays.default ]; }
       ];
     };
 
@@ -33,28 +30,23 @@
       specialArgs = { inherit inputs; };
       modules = [
         ./configuration-margolotta.nix
-        {nixpkgs.overlays = [
-           inputs.rust-overlay.overlays.default
-         ];
-        }
+        { nixpkgs.overlays = [ inputs.rust-overlay.overlays.default ]; }
       ];
     };
 
-  # WSL
-  nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-    system = "x86_64-linux";
-    specialArgs = { inherit inputs; };
-    modules = [
-      nixos-wsl.nixosModules.default
+    # WSL
+    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      specialArgs = { inherit inputs; };
+      modules = [
+        nixos-wsl.nixosModules.default
         {
           system.stateVersion = "24.05";
           wsl.enable = true;
         }
-        {nixpkgs.overlays = [
-           inputs.rust-overlay.overlays.default
-         ];}
+        { nixpkgs.overlays = [ inputs.rust-overlay.overlays.default ]; }
         ./configuration-wsl.nix
-        ];
-      };
+      ];
     };
-    }
+  };
+}

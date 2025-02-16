@@ -1,5 +1,4 @@
-{ pkgs, inputs, ... }:
-{
+{ pkgs, inputs, ... }: {
   # Base system programs
   environment.systemPackages = with pkgs; [
 
@@ -18,7 +17,8 @@
     fish-lsp
 
     # ** Common system utilities
-    acpi lm_sensors
+    acpi
+    lm_sensors
     bind
     file
     htop
@@ -32,7 +32,8 @@
     usbutils
     wget
     whois
-    zip unzip
+    zip
+    unzip
 
     # ** Utilities
 
@@ -91,12 +92,18 @@
     zoom-us
 
     # ** Emacs and friends
-    ((emacsPackagesFor emacs30-gtk3).emacsWithPackages
-      (epkgs: with epkgs; [ auctex forge magit pdf-tools vterm notmuch treesit-grammars.with-all-grammars ] ))
+    ((emacsPackagesFor emacs30-gtk3).emacsWithPackages (epkgs:
+      with epkgs; [
+        auctex
+        forge
+        magit
+        pdf-tools
+        vterm
+        notmuch
+        treesit-grammars.with-all-grammars
+      ]))
     isync
-    (aspellWithDicts
-      (dicts: with dicts; [ aspellDicts.fr
-                            aspellDicts.en ]))
+    (aspellWithDicts (dicts: with dicts; [ aspellDicts.fr aspellDicts.en ]))
     mu
     notmuch
     afew
@@ -117,7 +124,7 @@
     meld
     nix-prefetch-scripts
     ripgrep
-    llvmPackages.bintools  # This is generally useful.
+    llvmPackages.bintools # This is generally useful.
     # *** The C family
     clang
     # *** Go
@@ -133,6 +140,7 @@
     stack
     # *** Nix
     nixd
+    nixfmt-classic
     # *** Lisps
     racket
     chez
@@ -152,10 +160,7 @@
     lyx
     (texlive.combine {
       inherit (texlive) scheme-full;
-      extra =
-        {
-          pkgs = [ auto-multiple-choice ];
-        };
+      extra = { pkgs = [ auto-multiple-choice ]; };
     })
     # *** Web
     nodePackages.prettier
@@ -164,4 +169,4 @@
     yarn
     insomnia # Rest client
   ];
-  }
+}

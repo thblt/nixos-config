@@ -10,11 +10,10 @@
 # - Anna :: MacbookAir 4,1   [retired]
 # - Rudiger :: MacPro 3,1    [retired]
 
-{ pkgs, ... }:
-{
+{ pkgs, ... }: {
   # Use the systemd-boot EFI boot loader.
   boot = {
-    extraModulePackages = [];
+    extraModulePackages = [ ];
     loader = {
       systemd-boot = {
         enable = true;
@@ -49,7 +48,7 @@
   # Keyboard and i18n
   i18n.defaultLocale = "fr_FR.UTF-8";
   console.keyMap = "fr-bepo";
-  services.xserver.xkb= {
+  services.xserver.xkb = {
     layout = "fr";
     variant = "bepo";
   };
@@ -124,7 +123,7 @@
       enable = true;
       wrapperFeatures.gtk = true;
       extraSessionCommands = ''
-      export MOZ_ENABLE_WAYLAND=1
+        export MOZ_ENABLE_WAYLAND=1
       '';
       extraPackages = with pkgs; [
         adwaita-icon-theme
@@ -152,18 +151,13 @@
       syntaxHighlighting.enable = true;
       enableCompletion = true;
     };
-    fish = {
-      enable = true;
-    };
+    fish = { enable = true; };
   };
 
   # Printing
   services.printing = {
     enable = true;
-    drivers = with pkgs; [
-      samsung-unified-linux-driver
-      brgenml1cupswrapper
-    ];
+    drivers = with pkgs; [ samsung-unified-linux-driver brgenml1cupswrapper ];
   };
 
   nix.gc = {
@@ -172,15 +166,11 @@
   };
 
   fonts.fontDir.enable = true;
-  fonts.packages = [
-    pkgs.iosevka
-    pkgs.libertine
-    pkgs.open-sans
-  ];
+  fonts.packages = [ pkgs.iosevka pkgs.libertine pkgs.open-sans ];
 
   services.keybase.enable = false;
   services.gnome.gnome-keyring.enable = pkgs.lib.mkForce false;
-  services.pcscd.enable = true;   # Smartcard support
+  services.pcscd.enable = true; # Smartcard support
   programs.gnupg.agent.pinentryPackage = pkgs.pinentry-gtk2;
   # programs.steam.enable = false
 
@@ -194,7 +184,8 @@
         "networkmanager"
         "sway"
         "video" # For programs.light to work
-        "wheel" ];
+        "wheel"
+      ];
       uid = 1000;
       openssh.authorizedKeys.keys = [
         # card# at the end of each line.

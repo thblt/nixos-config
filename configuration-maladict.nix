@@ -15,11 +15,7 @@
 {
   networking.hostName = "maladict";
 
-  imports =
-    [
-      ./hardware-configuration.nix
-      ./common.nix
-    ];
+  imports = [ ./hardware-configuration.nix ./common.nix ];
 
   # console.font = pkgs.lib.mkForce "${pkgs.terminus_font}/share/consolefonts/ter-i32n.psf.gz"; # HiDPI console
   # hardware.video.hidpi.enable = true;
@@ -34,7 +30,7 @@
     };
   };
 
-  boot.kernelParams  = [ "acpi_rev_override=5" ];
+  boot.kernelParams = [ "acpi_rev_override=5" ];
 
   # Rainbow keyboard
   # hardware.ckb-next.enable = true;
