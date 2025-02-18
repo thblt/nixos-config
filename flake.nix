@@ -9,7 +9,6 @@
       url = "github:oxalica/rust-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
   };
 
@@ -20,6 +19,7 @@
       specialArgs = { inherit inputs; };
       modules = [
         ./configuration-dru.nix
+        nixos-wsl.nixosModules.default
         { nixpkgs.overlays = [ inputs.rust-overlay.overlays.default ]; }
       ];
     };
@@ -30,6 +30,7 @@
       specialArgs = { inherit inputs; };
       modules = [
         ./configuration-margolotta.nix
+        nixos-wsl.nixosModules.default
         { nixpkgs.overlays = [ inputs.rust-overlay.overlays.default ]; }
       ];
     };
@@ -41,6 +42,8 @@
       modules = [
         nixos-wsl.nixosModules.default
         {
+          # Set this here, so multiple WSL hosts in the future can
+          # have different stateVersion with the same config module.
           system.stateVersion = "24.05";
           wsl.enable = true;
         }
