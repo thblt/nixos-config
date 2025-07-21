@@ -4,7 +4,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     pgp-words.url = "github:thblt/pgp-words.rs/main";
-    helix.url = "github:helix-editor/helix/25.01";
+    helix.url = "github:helix-editor/helix/25.07";
     rust-overlay = {
       url = "github:oxalica/rust-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
