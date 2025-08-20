@@ -53,8 +53,6 @@
     };
   };
 
-  services.ddccontrol.enable = true;
-
   # Rainbow keyboard
   hardware.ckb-next.enable = true;
 

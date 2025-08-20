@@ -40,11 +40,6 @@
   networking.networkmanager.enable = true;
   programs.kdeconnect.enable = true;
 
-  # @FIXME This breaks optirun
-
-  # Talk with iOS hardware
-  # services.usbmuxd.enable = true;
-
   # Keyboard and i18n
   i18n.defaultLocale = "fr_FR.UTF-8";
   console.keyMap = "fr-bepo";
@@ -90,10 +85,12 @@
   # same commit that creates flake.nix: the issue appeared before.
   # ------------------
 
-  # Funny inputs
   hardware = {
+  # Funny inputs
     keyboard.qmk.enable = true;
     spacenavd.enable = true;
+  # Talk to i2c (for ddcutil)
+  i2c.enable = true;
   };
 
   # greetd
@@ -129,6 +126,8 @@
         adwaita-icon-theme
         alacritty
         alsa-utils
+        ddcutil
+        ddcui
         fuzzel
         grim
         sway-contrib.grimshot
@@ -182,6 +181,7 @@
     extraUsers.thblt = {
       isNormalUser = true;
       extraGroups = [
+        "i2c"
         "networkmanager"
         "sway"
         "video" # For programs.light to work
