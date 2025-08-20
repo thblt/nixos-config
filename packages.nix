@@ -36,15 +36,17 @@
       # ** Utilities
 
       # (import ./packages/aspell-merge3.nix)
-      # (import ./packages/pgp-words.nix)
       inputs.pgp-words.outputs.defaultPackage."${pkgs.system}"
       inputs.helix.packages."${pkgs.system}".helix
 
       bc
+      eza
       gpp
       graphviz
+      jless
       jq
       pandoc
+      tre-command
       udiskie
 
       # ** Cryptography
@@ -62,9 +64,11 @@
       imagemagick
       neofetch # I know.
       nextcloud-client
+      obsidian
       qmk
       qrencode
       yt-dlp
+      zettlr
       zotero
 
       # *** More apps

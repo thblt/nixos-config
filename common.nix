@@ -128,6 +128,7 @@
       extraPackages = with pkgs; [
         adwaita-icon-theme
         alacritty
+        alsa-utils
         fuzzel
         grim
         sway-contrib.grimshot
