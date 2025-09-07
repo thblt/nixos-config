@@ -1,43 +1,62 @@
 { config, pkgs, inputs, ... }: {
   # Base system programs
+  nixpkgs.overlays = [ inputs.rust-overlay.overlays.default ];
+
   environment.systemPackages = with pkgs;
-    [
 
-      # ** Shell
-
-      tmux
-      fzf
-      grc
-
-      fishPlugins.autopair
-      fishPlugins.done
-      fishPlugins.fzf-fish
-      fish-lsp
-
-      # ** Common system utilities
+  # Linux hardware support (Linux all the way down)
+    lib.optionals (stdenv.isLinux && !config.wsl.enable) [
       acpi
-      lm_sensors
       bind
+      lm_sensors
+      pciutils
+      powertop
+      usbutils
+    ] ++
+
+    # Base system (Linux only, not on Darwin)
+    lib.optionals (stdenv.isLinux) [
+
+      acpi
       file
       htop
       p7zip
-      pciutils
-      powertop
       psmisc
       tldr
       tree
       unrar
-      usbutils
       wget
       whois
       zip
       unzip
+      udiskie
+
+      # ** Cryptography
+
+      gnupg1compat
+      gopass
+    ] ++
+
+    # A terminal for Darwin too!
+    lib.optionals (stdenv.isDarwin) [ wezterm ] ++
+    # Common packages
+    [
+      # ** Shell
+      tmux
+      fzf
+      grc
+      zellij
+
+      fishPlugins.autopair
+      fishPlugins.done
+      # fishPlugins.fzf-fish
+      fish-lsp
 
       # ** Utilities
 
       # (import ./packages/aspell-merge3.nix)
-      inputs.pgp-words.outputs.defaultPackage."${pkgs.system}"
-      inputs.helix.packages."${pkgs.system}".helix
+      #inputs.pgp-words.outputs.defaultPackage."${pkgs.system}"
+      #inputs.helix.packages."${pkgs.system}".helix
 
       bc
       eza
@@ -47,35 +66,24 @@
       jq
       pandoc
       tre-command
-      udiskie
-
-      # ** Cryptography
-
-      gnupg1compat
-      gopass
-      pinentry
 
       # ** Graphical utilities and appliations
 
       # *** Apps
 
-      auto-multiple-choice
       hugo
       imagemagick
       neofetch # I know.
-      nextcloud-client
-      obsidian
       qmk
       qrencode
       yt-dlp
-      zettlr
-      zotero
 
       # *** More apps
 
       # ** Emacs and friends
-      ((emacsPackagesFor emacs30-gtk3).emacsWithPackages (epkgs:
-        with epkgs; [
+      ((emacsPackagesFor emacs).emacsWithPackages (epkgs:
+        with epkgs;
+        [
           auctex
           auto-compile
           backline
@@ -133,7 +141,9 @@
           yaml
           yasnippet
           aggressive-indent
-        ]))
+        ] ++ lib.optionals stdenv.isDarwin [ epkgs.exec-path-from-shell ]
+
+      ))
       isync
       (aspellWithDicts (dicts: with dicts; [ aspellDicts.fr aspellDicts.en ]))
       mu
@@ -142,8 +152,6 @@
 
       # enemies
       helix
-      neovim
-      neovim-qt
 
       # ** Programming tools
 
@@ -172,8 +180,8 @@
       nixd
       nixfmt-classic
       # *** Lisps
-      racket
       chez
+      # racket # Fails on Darwin
       # *** Python
       python3
       pylint
@@ -198,8 +206,14 @@
       nodejs
       sass
       yarn
-    ] ++ lib.optionals (!config.wsl.enable) [
+
+    ] ++
+
+    # Large graphical programs that should only be installed in real Linux
+    lib.optionals (stdenv.isLinux && !config.wsl.enable) [
       # Large graphical programs we don't need/want in WSL
+      auto-multiple-choice
+      bitwarden
       chromium
       discord
       eduke32

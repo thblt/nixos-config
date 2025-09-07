@@ -86,11 +86,11 @@
   # ------------------
 
   hardware = {
-  # Funny inputs
+    # Funny inputs
     keyboard.qmk.enable = true;
     spacenavd.enable = true;
-  # Talk to i2c (for ddcutil)
-  i2c.enable = true;
+    # Talk to i2c (for ddcutil)
+    i2c.enable = true;
   };
 
   # greetd
