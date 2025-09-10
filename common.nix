@@ -120,13 +120,8 @@
         xwayland
       ];
     };
-    zsh = {
-      enable = true;
-      autosuggestions.enable = true;
-      syntaxHighlighting.enable = true;
-      enableCompletion = true;
-    };
-    fish = { enable = true; };
+
+    fish.enable = true;
   };
 
   # Printing

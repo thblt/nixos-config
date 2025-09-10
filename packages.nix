@@ -37,8 +37,6 @@
       gopass
     ] ++
 
-    # A terminal for Darwin too!
-    lib.optionals (stdenv.isDarwin) [ wezterm ] ++
     # Common packages
     [
       # ** Shell
@@ -47,8 +45,6 @@
       grc
       zellij
 
-      fishPlugins.autopair
-      fishPlugins.done
       # fishPlugins.fzf-fish
       fish-lsp
 
@@ -80,71 +76,6 @@
       # *** More apps
 
       # ** Emacs and friends
-      ((emacsPackagesFor emacs).emacsWithPackages (epkgs:
-        with epkgs;
-        [
-          auctex
-          auto-compile
-          backline
-          beginend
-          bicycle
-          consult
-          corfu
-          diminish
-          dirvish
-          doom-themes
-          editorconfig
-          eldoc-box
-          embark
-          embark-consult
-          emmet-mode
-          erc-hl-nicks
-          evil-nerd-commenter
-          f
-          flyspell-correct
-          forge
-          free-keys
-          haskell-mode
-          hydra
-          loccur
-          magit
-          marginalia
-          markdown-mode
-          mwim
-          nix-mode
-          no-littering
-          notmuch
-          orderless
-          outline-minor-faces
-          pdf-tools
-          rainbow-mode
-          rg
-          s
-          scpaste
-          shackle
-          smartparens
-          super-save
-          sway
-          tablist
-          treepy
-          treesit-grammars.with-all-grammars
-          unfill
-          unkillable-scratch
-          vertico
-          visual-fill-column
-          visual-regexp
-          vterm
-          vundo
-          wgrep
-          with-editor
-          yaml
-          yasnippet
-          aggressive-indent
-        ] ++ lib.optionals stdenv.isDarwin [ epkgs.exec-path-from-shell ]
-
-      ))
-      isync
-      (aspellWithDicts (dicts: with dicts; [ aspellDicts.fr aspellDicts.en ]))
       mu
       notmuch
       afew

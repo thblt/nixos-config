@@ -1,17 +1,9 @@
+
 #+TITLE: /etc/nixos/
 
-This is my NixOS configuration for my desktops PCs (a category that
-includes laptops, but not servers or headless).  It's extremely
-boring.  To use it, I:
+This is my NixOS/home-manager/nix-darwin configuration for my desktops
+computers (a category that includes laptops and also a Mac, but not
+servers or headless).  It's extremely boring.
 
-#+begin_src shell
-  ln -s configuration-$(hostname).nix configuration.nix
-#+end_src
-
-=hardware-configuration.nix= is not included, since I don't modify it.
-The bulk of the config is in =common.nix=, the packages in
-=packages.nix=.  I haven't switched to home-manager yet, so this works
-with my [[https://github.com/thblt/dotfiles/][dotfiles]] and my [[https://github.com/thblt/.emacs.d/][emacs configuration]].
-
-The ASCII font used for the hostname header in configuration-*.nix is
+The ASCII font used for the hostname header in =configuration-*.nix= is
 called [[https://patorjk.com/software/taag/#p=display&f=Bloody&t=Hostame][Bloody]].
