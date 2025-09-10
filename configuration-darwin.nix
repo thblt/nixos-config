@@ -14,6 +14,10 @@
   # Enable alternative shell support in nix-darwin.
   programs.fish.enable = true;
 
+  environment.variables = {
+    SSH_AUTH_SOCK="/Users/thblt/Library/Containers/com.bitwarden.desktop/Data/.bitwarden-ssh-agent.sock";
+    
+  };
   # Set Git commit hash for darwin-version.
   # system.configurationRevision = self.rev or self.dirtyRev or null;
 
