@@ -1,6 +1,4 @@
 { config, pkgs, inputs, ... }: {
-  # List packages installed in system profile. To search by name, run:
-  # $ nix-env -qaP | grep wget
   nix.enable = false;
 
   imports = [ ./packages.nix ];
@@ -16,8 +14,9 @@
 
   environment.variables = {
     SSH_AUTH_SOCK="/Users/thblt/Library/Containers/com.bitwarden.desktop/Data/.bitwarden-ssh-agent.sock";
-    
+
   };
+
   # Set Git commit hash for darwin-version.
   # system.configurationRevision = self.rev or self.dirtyRev or null;
 
