@@ -54,7 +54,6 @@
 
       # ** Utilities
 
-      # (import ./packages/aspell-merge3.nix)
       #inputs.pgp-words.outputs.defaultPackage."${pkgs.system}"
       #inputs.helix.packages."${pkgs.system}".helix
 
