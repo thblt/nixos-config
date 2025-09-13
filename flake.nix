@@ -10,7 +10,6 @@
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
     nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
-
     helix.url = "github:helix-editor/helix/25.07";
     helix.inputs.nixpkgs.follows = "nixpkgs";
     rust-overlay.url = "github:oxalica/rust-overlay";
@@ -34,8 +33,7 @@
     nixosConfigurations.margolotta = nixos.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = { inherit inputs; };
-      modules =
-        [ ./configuration-margolotta.nix ];
+      modules = [ ./configuration-margolotta.nix ];
     };
 
     # WSL
@@ -58,10 +56,8 @@
     darwinConfigurations."MBA-Thibault" = nix-darwin.lib.darwinSystem {
       specialArgs = { inherit inputs; };
       system.configurationRevision = self.rev or self.dirtyRev or null;
-      modules = [
-        home-manager.darwinModules.home-manager
-        ./configuration-darwin.nix
-      ];
+      modules =
+        [ home-manager.darwinModules.home-manager ./configuration-darwin.nix ];
     };
   };
 }

@@ -7,12 +7,11 @@
 
   security.pam.services.sudo_local.touchIdAuth = true;
 
-  fonts.packages = [
-    pkgs.iosevka
-    pkgs.fira-code ];
+  fonts.packages = [ pkgs.iosevka pkgs.fira-code ];
 
   environment.variables = {
-    SSH_AUTH_SOCK="/Users/thblt/Library/Containers/com.bitwarden.desktop/Data/.bitwarden-ssh-agent.sock";
+    SSH_AUTH_SOCK =
+      "/Users/thblt/Library/Containers/com.bitwarden.desktop/Data/.bitwarden-ssh-agent.sock";
   };
 
   # Fish must be enabled from nix-darwin, and not just home-manager,
@@ -27,7 +26,5 @@
   # The platform the configuration will be used on.
   nixpkgs.hostPlatform = "aarch64-darwin";
 
-  users.users.thblt = {
-    home = "/Users/thblt";
-  };
+  users.users.thblt = { home = "/Users/thblt"; };
 }

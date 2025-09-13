@@ -11,7 +11,9 @@ let
 in {
   home-manager.users.thblt = { config, ... }: {
 
-    # SHELL
+    # ░█▀▀░█░█░█▀▀░█░░░█░░
+    # ░▀▀█░█▀█░█▀▀░█░░░█░░
+    # ░▀▀▀░▀░▀░▀▀▀░▀▀▀░▀▀▀
 
     programs.fish = {
       enable = true;
@@ -79,11 +81,15 @@ in {
     home.file.".ssh/allowed_signers".text =
       "thibault@thb.lt ${my-public-ssh-key}";
 
-    # HELIX
+    # ░█░█░█▀▀░█░░░▀█▀░█░█
+    # ░█▀█░█▀▀░█░░░░█░░▄▀▄
+    # ░▀░▀░▀▀▀░▀▀▀░▀▀▀░▀░▀
 
     programs.helix = { enable = true; };
 
-    # EMACS
+    # ░█▀▀░█▄█░█▀█░█▀▀░█▀▀
+    # ░█▀▀░█░█░█▀█░█░░░▀▀█
+    # ░▀▀▀░▀░▀░▀░▀░▀▀▀░▀▀▀
 
     programs.emacs = {
       enable = true;
@@ -153,7 +159,9 @@ in {
 
     services.emacs = { enable = true; };
 
-# WEZTERM
+    # ░█░█░█▀▀░▀▀█░▀█▀░█▀▀░█▀▄░█▄█
+    # ░█▄█░█▀▀░▄▀░░░█░░█▀▀░█▀▄░█░█
+    # ░▀░▀░▀▀▀░▀▀▀░░▀░░▀▀▀░▀░▀░▀░▀
 
     programs.wezterm = { enable = true; };
 
