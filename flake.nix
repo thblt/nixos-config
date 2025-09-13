@@ -27,7 +27,7 @@
     nixosConfigurations.dru = nixos.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = { inherit inputs; };
-      modules = [ ./configuration-dru.nix nixos-wsl.nixosModules.default ];
+      modules = [ ./configuration-dru.nix ];
     };
 
     # MARGOLOTTA
@@ -35,7 +35,7 @@
       system = "x86_64-linux";
       specialArgs = { inherit inputs; };
       modules =
-        [ ./configuration-margolotta.nix nixos-wsl.nixosModules.default ];
+        [ ./configuration-margolotta.nix ];
     };
 
     # WSL
