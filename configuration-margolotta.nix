@@ -16,7 +16,7 @@
   networking.hostName = "margolotta";
 
   imports =
-    [ ./hardware-configuration-margolotta.nix ./common.nix ./packages.nix ];
+    [ ./hardware-configuration-margolotta.nix ./common.nix ./packages.nix ./home.nix ];
 
   # boot.kernelPackages = pkgs.linuxPackages_latest;
 
@@ -57,4 +57,5 @@
   hardware.ckb-next.enable = true;
 
   system.stateVersion = "24.05";
+  home-manager.users.thblt.home.stateVersion = "25.11";
 }
