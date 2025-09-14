@@ -5,7 +5,7 @@
   environment.systemPackages = with pkgs;
 
   # Linux hardware support (Linux all the way down)
-    lib.optionals (stdenv.isLinux && !config.wsl.enable) [
+    lib.optionals (stdenv.isLinux && !config ? wsl.enable) [
       acpi
       bind
       lm_sensors
@@ -140,7 +140,7 @@
     ] ++
 
     # Large graphical programs that should only be installed in real Linux
-    lib.optionals (stdenv.isLinux && !config.wsl.enable) [
+    lib.optionals (stdenv.isLinux && !config ? wsl.enable) [
       # Large graphical programs we don't need/want in WSL
       auto-multiple-choice
       bitwarden
