@@ -35,6 +35,10 @@ in {
     };
     home.shell.enableFishIntegration = true;
 
+    # ░█▀▀░▀█▀░▀█▀
+    # ░█░█░░█░░░█░
+    # ░▀▀▀░▀▀▀░░▀░
+
     programs.git = {
       enable = true;
       userName = "Thibault Polge";
@@ -45,6 +49,7 @@ in {
         key = my-public-ssh-key;
       };
       extraConfig = {
+        init.defaultBranch = "main";
         gpg.ssh.allowedSignersFile = "~/.ssh/allowed_signers";
         url."ssh://git@github.com/".pushInsteadOf = "https://github.com/";
         url."ssh://git@gitlab.com/".pushInsteadOf = "https://gitlab.com/";
