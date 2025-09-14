@@ -2,7 +2,7 @@
 let
   is-darwin = (pkgs.system == "aarch64-darwin");
 
-  my-root = if is-darwin then "/etc/nix-darwin/" else "/etc/nixos/";
+  flake-root = if is-darwin then "/etc/nix-darwin/" else "/etc/nixos/";
 
   my-public-ssh-key =
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA0KP6qcGX9MKolHQd+43v+HyQijegFMoQg+AxDii2vq";
@@ -176,7 +176,6 @@ in {
     programs.wezterm = { enable = true; };
 
     xdg.configFile."wezterm/wezterm.lua".source =
-      config.lib.file.mkOutOfStoreSymlink
-      "/etc/nix-darwin/dotfiles/wezterm.lua";
+      config.lib.file.mkOutOfStoreSymlink "${flake-root}/dotfiles/wezterm.lua";
   };
 }
