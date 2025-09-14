@@ -1,15 +1,20 @@
 { pkgs, lib, inputs, stdenv, ... }:
 let
-  my-root = if (pkgs.system == "aarch64-darwin") then
-    "/etc/nix-darwin/"
-  else
-    "/etc/nixos/";
+  is-darwin = (pkgs.system == "aarch64-darwin");
+
+  my-root = if is-darwin then "/etc/nix-darwin/" else "/etc/nixos/";
 
   my-public-ssh-key =
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA0KP6qcGX9MKolHQd+43v+HyQijegFMoQg+AxDii2vq";
 
 in {
   home-manager.users.thblt = { config, ... }: {
+
+    home.sessionVariables."SSH_AUTH_SOCK" = if is-darwin then
+      "~/Library/Containers/com.bitwarden.desktop/Data/.bitwarden-ssh-agent.sock"
+    else
+    # ~ doesn't seem to work here.
+      "$HOME/.bitwarden-ssh-agent.sock";
 
     # ░█▀▀░█░█░█▀▀░█░░░█░░
     # ░▀▀█░█▀█░█▀▀░█░░░█░░

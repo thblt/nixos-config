@@ -9,11 +9,6 @@
 
   fonts.packages = [ pkgs.iosevka pkgs.fira-code ];
 
-  environment.variables = {
-    SSH_AUTH_SOCK =
-      "/Users/thblt/Library/Containers/com.bitwarden.desktop/Data/.bitwarden-ssh-agent.sock";
-  };
-
   # Fish must be enabled from nix-darwin, and not just home-manager,
   # to correctly set nix paths in interactive use.
   programs.fish.enable = true;

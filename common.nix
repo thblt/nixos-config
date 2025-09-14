@@ -87,10 +87,9 @@
     file-roller.enable = true;
     gnupg.agent = {
       enable = true;
-      enableSSHSupport = true;
+      enableSSHSupport = false;
     };
     light.enable = true;
-    ssh.startAgent = false;
     sway = {
       enable = true;
       wrapperFeatures.gtk = true;
