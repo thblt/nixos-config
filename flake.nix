@@ -33,8 +33,10 @@
     nixosConfigurations.margolotta = nixos.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = { inherit inputs; };
-      modules = [ ./configuration-margolotta.nix
-                  home-manager.nixosModules.home-manager ];
+      modules = [
+        ./configuration-margolotta.nix
+        home-manager.nixosModules.home-manager
+      ];
     };
 
     # WSL

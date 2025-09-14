@@ -15,8 +15,12 @@
 {
   networking.hostName = "margolotta";
 
-  imports =
-    [ ./hardware-configuration-margolotta.nix ./common.nix ./packages.nix ./home.nix ];
+  imports = [
+    ./hardware-configuration-margolotta.nix
+    ./common.nix
+    ./packages.nix
+    ./home.nix
+  ];
 
   # boot.kernelPackages = pkgs.linuxPackages_latest;
 
