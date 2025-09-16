@@ -1,9 +1,14 @@
 { pkgs, ... }: {
-  nix.enable = false;
+  nix = {
+    enable = false;
+    settings.experimental-features = "nix-command flakes";
+    gc = {
+      automatic = true;
+      options = "--delete-older-than 8d";
+    };
+  };
 
   imports = [ ./packages.nix ./home.nix ];
-
-  nix.settings.experimental-features = "nix-command flakes";
 
   security.pam.services.sudo_local.touchIdAuth = true;
 
@@ -13,13 +18,13 @@
   # to correctly set nix paths in interactive use.
   programs.fish.enable = true;
 
-  # Used for backwards compatibility, please read the changelog before changing.
-  # $ darwin-rebuild changelog
-  system.stateVersion = 6;
-  home-manager.users.thblt.home.stateVersion = "25.11";
-
   # The platform the configuration will be used on.
   nixpkgs.hostPlatform = "aarch64-darwin";
 
   users.users.thblt = { home = "/Users/thblt"; };
+
+  # Used for backwards compatibility, please read the changelog before changing.
+  # $ darwin-rebuild changelog
+  system.stateVersion = 6;
+  home-manager.users.thblt.home.stateVersion = "25.11";
 }
