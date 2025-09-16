@@ -1,35 +1,40 @@
-{ config, pkgs, inputs, ... }: {
+{ config, pkgs, inputs, ... }:
+let
+  isLinux = pkgs.stdenv.isLinux;
+  isWSL = config ? wsl.enable;
+  isPureLinux = isLinux && !isWSL;
+  isDarwin = pkgs.stdenv.isDarwin;
+in {
   # Base system programs
   nixpkgs.overlays = [ inputs.rust-overlay.overlays.default ];
 
   environment.systemPackages = with pkgs;
 
   # Linux hardware support (Linux all the way down)
-    lib.optionals (stdenv.isLinux && !config ? wsl.enable) [
+    lib.optionals isPureLinux [
       acpi
       bind
       lm_sensors
       pciutils
       powertop
+      udiskie
       usbutils
     ] ++
 
     # Base system (Linux only, not on Darwin)
-    lib.optionals (stdenv.isLinux) [
+    lib.optionals isLinux [
 
       acpi
       file
       htop
       p7zip
       psmisc
-      tldr
       tree
       unrar
       wget
       whois
       zip
       unzip
-      udiskie
 
       # ** Cryptography
 

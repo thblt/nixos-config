@@ -1,9 +1,9 @@
-{ pkgs, ... }: {
+{ config, pkgs, ... }: {
   nix = {
     enable = false;
     settings.experimental-features = "nix-command flakes";
     gc = {
-      automatic = true;
+      automatic = config.nix.enable;
       options = "--delete-older-than 8d";
     };
   };

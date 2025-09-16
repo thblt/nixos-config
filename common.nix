@@ -169,12 +169,9 @@
   services.udisks2.enable = true;
 
   virtualisation.virtualbox.host.enable = true;
-  #services.postgresql.enable = true;
 
   nixpkgs.config.allowUnfree = true;
   hardware.enableRedistributableFirmware = true;
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  # android_sdk.accept_license = true;
 }
