@@ -23,6 +23,7 @@ in {
         email = "thibault@thb.lt";
         base_url = "https://api.bitwarden.eu/";
         pinentry = my-pinentry;
+        lock_timeout = 31536000;
       };
     };
 
