@@ -1,0 +1,8 @@
+-*- mode: markdown -*-
+
+# Configuring a new PC
+
+## rbw
+
+You must `rbw register` before `rbw login`.  Error 400 at `rbw login`
+means bitwarden tried to send a confirmation code.

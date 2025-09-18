@@ -45,21 +45,12 @@ in {
     # Common packages
     [
       # ** Shell
-      tmux
-      fzf
-      grc
-      zellij
 
-      # fishPlugins.fzf-fish
       fish-lsp
 
       # ** Utilities
 
-      #inputs.pgp-words.outputs.defaultPackage."${pkgs.system}"
-      #inputs.helix.packages."${pkgs.system}".helix
-
       bc
-      eza
       gpp
       graphviz
       jless

@@ -135,7 +135,8 @@
   };
 
   fonts.fontDir.enable = true;
-  fonts.packages = [ pkgs.iosevka pkgs.libertine pkgs.open-sans pkgs.fira-code ];
+  fonts.packages =
+    [ pkgs.iosevka pkgs.libertine pkgs.open-sans pkgs.fira-code ];
 
   services.keybase.enable = false;
   services.gnome.gnome-keyring.enable = pkgs.lib.mkForce false;

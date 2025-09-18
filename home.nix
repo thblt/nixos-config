@@ -230,8 +230,7 @@ in {
           yaml
           yasnippet
           aggressive-indent
-        ] ++ lib.optionals (pkgs.system == "aarch64-darwin")
-        [ epkgs.exec-path-from-shell ]));
+        ] ++ lib.optionals is-darwin [ epkgs.exec-path-from-shell ]));
     };
 
     services.emacs = { enable = true; };
