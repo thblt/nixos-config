@@ -7,6 +7,9 @@ config.font = wezterm.font "Fira Code"
 
 config.default_prog = { '/Users/thblt/.nix-profile/bin/fish', '-l' }
 
+config.native_macos_fullscreen_mode = false
+config.macos_fullscreen_extend_behind_notch = true
+
 function get_appearance()
   if wezterm.gui then
     return wezterm.gui.get_appearance()
