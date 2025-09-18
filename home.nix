@@ -1,8 +1,10 @@
 { pkgs, lib, inputs, stdenv, ... }:
+# Ascii art font is Pagga
 let
   is-darwin = (pkgs.system == "aarch64-darwin");
 
   flake-root = if is-darwin then "/etc/nix-darwin/" else "/etc/nixos/";
+  my-pinentry = if is-darwin then pkgs.pinentry_mac else pkgs.pinentry-gnome3;
 
   my-public-ssh-key =
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA0KP6qcGX9MKolHQd+43v+HyQijegFMoQg+AxDii2vq";
@@ -10,11 +12,25 @@ let
 in {
   home-manager.users.thblt = { config, ... }: {
 
+    # ░█▀▄░▀█▀░▀█▀░█░█░█▀█░█▀▄░█▀▄░█▀▀░█▀█
+    # ░█▀▄░░█░░░█░░█▄█░█▀█░█▀▄░█░█░█▀▀░█░█
+    # ░▀▀░░▀▀▀░░▀░░▀░▀░▀░▀░▀░▀░▀▀░░▀▀▀░▀░▀
+
+    # From the doc: you need to `rbw register` before you `rbw login`
+    programs.rbw = {
+      enable = true;
+      settings = {
+        email = "thibault@thb.lt";
+        base_url = "https://api.bitwarden.eu/";
+        pinentry = my-pinentry;
+      };
+    };
+
     home.sessionVariables."SSH_AUTH_SOCK" = if is-darwin then
-      "~/Library/Containers/com.bitwarden.desktop/Data/.bitwarden-ssh-agent.sock"
+      "$(getconf DARWIN_USER_TEMP_DIR)rbw-$(id -u)/ssh-agent-socket"
     else
     # ~ doesn't seem to work here.
-      "$HOME/.bitwarden-ssh-agent.sock";
+      "$XDG_RUNTIME_DIR/rbw/ssh-agent-socket";
 
     # ░█▀▀░█░█░█▀▀░█░░░█░░
     # ░▀▀█░█▀█░█▀▀░█░░░█░░
