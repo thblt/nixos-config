@@ -52,6 +52,56 @@ in {
     programs.eza.enable = true;
     home.shell.enableFishIntegration = true;
 
+    # ░█▀▀░█▄█░█▀█░▀█▀░█░░
+    # ░█▀▀░█░█░█▀█░░█░░█░░
+    # ░▀▀▀░▀░▀░▀░▀░▀▀▀░▀▀▀
+
+    accounts.email = {
+      maildirBasePath = ".mail";
+
+      accounts.personal = {
+        primary = true;
+        address = "thibault@thb.lt";
+        userName = "thibault@thb.lt";
+        realName = "Thibault Polge";
+        imap.host = "ssl0.ovh.net";
+        imap.tls.enable = true;
+        smtp.host = "ssl0.ovh.net";
+        smtp.tls.enable = true;
+        passwordCommand = "rbw get ssl0.ovh.net";
+        mbsync = {
+          enable = true;
+          create = "both";
+          expunge = "both";
+        };
+        notmuch.enable = true;
+      };
+
+      accounts.work = {
+        address = "thibault.polge@ac-amiens.fr";
+        userName = "tpolge";
+        realName = "Thibault Polge";
+        imap.host = "imap.ac-amiens.fr";
+        imap.tls.enable = true;
+        smtp.host = "smtp.ac-amiens.fr";
+        smtp.tls.enable = true;
+        passwordCommand = "rbw get ac-amiens.fr";
+        mbsync = {
+          enable = true;
+          create = "both";
+          expunge = "both";
+        };
+        notmuch.enable = true;
+      };
+
+    };
+
+    programs.notmuch = {
+      enable = true;
+      new.tags = [ "new" ];
+    };
+    programs.mbsync = { enable = true; };
+
     # ░█▀▀░▀█▀░▀█▀
     # ░█░█░░█░░░█░
     # ░▀▀▀░▀▀▀░░▀░
