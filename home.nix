@@ -49,8 +49,14 @@ in {
         }
       ];
     };
+
     programs.eza.enable = true;
     home.shell.enableFishIntegration = true;
+
+    # zsh MUST be enabled, so values in home.sessionVariables are
+    # correctly set in it, and in turn correctly found by
+    # exec-path-from-shell in Emacs.
+    programs.zsh.enable = true;
 
     # ░█▀▀░█▄█░█▀█░▀█▀░█░░
     # ░█▀▀░█░█░█▀█░░█░░█░░

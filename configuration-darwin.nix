@@ -21,6 +21,8 @@
   # The platform the configuration will be used on.
   nixpkgs.hostPlatform = "aarch64-darwin";
 
+  # Note to self: nix-darwin won’t change a user’s shell except when
+  # creating that user.  Don’t try to enable fish here.
   users.users.thblt = { home = "/Users/thblt"; };
 
   # Used for backwards compatibility, please read the changelog before changing.
