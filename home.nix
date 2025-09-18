@@ -49,6 +49,7 @@ in {
         }
       ];
     };
+    programs.eza.enable = true;
     home.shell.enableFishIntegration = true;
 
     # ░█▀▀░▀█▀░▀█▀
