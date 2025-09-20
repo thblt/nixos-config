@@ -1,0 +1,152 @@
+#+TITLE: A DWIM maildir refiler for notmuch
+
+I love notmuch for a lot of reasons,
+
+but like many people I also need to access my mail from my phone,
+using IMAP folders instead of tags,
+
+This is the long version; there’s no TL;DR but there’s a RTSL.
+
+The initial tagging is actually very straightforward.  Since I have
+two e-mail accounts, I give the tag ~personal~ to mail sent to my
+personal address, and ~work~ to mails sent to my work account.  Then I
+assign tags for the standard IMAP folders, like ~inbox~, ~archive~,
+~sent~, ~drafts~, ~spam~ and ~deleted~.  So a mail in /work/Archive
+will be tagged ~work archive~, a draft in ~/personal/Drafts~ will be
+tagged ~drafts personal~, and so on.
+
+Mapping from folders to tags is straightforward, and /in most cases/
+mapping back from tags to folders is just as easy.  For example, it’s
+trivial to write a script that looks at the maildir path for a given
+message, looks at its tags, determines where the tags say it should
+be, put it there, and delete the extra copies.  For example, a file in
+this location:
+
+#+begin_example
+/Users/thblt/.mail/personal/Inbox/cur/1758363106.84057_13.mac,U=13:2,S
+#+end_example
+
+with the tags ~archive personal~ should actually belong in
+
+#+begin_example
+/Users/thblt/.mail/personal/Archive/…
+#+end_example
+
+The easy way to decide where to store a file is thus to enumerate the
+pairs of (account tag, folder tag) in its tags, copy it there, delete
+it from other locations, and be done.
+
+But there are a few edge cases that makes the process a lot more
+complex than it seems.
+
+An important feature of notmuch, which you can’t (and probably don’t
+want to) opt out of, is *depuplication of messages*.  If multiple
+files in the maildir are identical, they’re treated as a single
+message.  This can happen, for example, if you send a mail to
+yourself: it will usually be in both the ~Sent~ and ~Inbox~ folders,
+being effectively two different messages from the maildir/IMAP
+perspective, notmuch will treat those files as a single message,
+associated with multiple filenames.
+
+This is where tricky situations begin, because you can’s assume that
+maildir tags are mutually exclusive.  Things get worse if you send a
+mail to yourself, but from one account to another: that single
+message, associated with two filenames, will be tagged ~inbox personal
+sent work~.  Which isn’t a big deal, until you want to eg archive it,
+at which point the refiler will get to work, and decide that the full
+set of tag pairs are
+
+#+begin_example
+(personal, archive)
+(personal, sent)
+(work, archive)
+(work, sent)
+#+end_example
+
+Our naive refiler will end up making *four* copies of the file, putting
+it where it doesn’t belong.
+
+The fundamental issue is that although the association folder => tags
+is unambiguous, the opposite isn’t true.  In the above example, the
+tags alone aren’t enough to determine if the mail belongs in
+~personal/Archive~, ~work/Archive~, or both (maybe it was sent to both
+addresses!)
+
+The solution to this problem will add quite a bit of complexity to our
+refiling algorithm.
+
+ - A fundamental decision is that the refiler *moves* mails, but
+   shouldn’t create new copies: it must destroy a copy for each copy
+   it creates, so the number of copies of the same message remains
+   constant.  The refiler will abort if its solution would modify the
+   number of copies of the message it’s processing.
+ - The other fundamental decision is that the refiler respects account
+   boundaries: mail is never moved from one account to another.  If it
+   deletes a copy in account A, it *must* create a new copy in the
+   *same* account.
+
+Our DWIM refiler starts again by enumerating pairs.  There are still
+four:
+
+#+begin_example
+  # LIST OF LEGAL PAIRS
+  (personal, archive)
+  (personal, sent)
+  (work, archive)
+  (work, sent)
+#+end_example
+
+It then continues by focusing on *folder* tags (the second member of
+each pair), and looks to determine which folder tags are *satisfied*
+in the current state of the database.  A folder tag is “satisfied” iff
+there’s already a copy of that message in the corresponding folder.
+For example, ~drafts~ is satisfied iff at least one copy of the
+message lives in ~/personal/Drafts~ or ~/work/Drafts~.  In the example
+above, the ~sent~ tag is satisfied, because a copy of the message
+already exists in ~/personal/Sent/~.  Pairs that are *legal* (= in the
+list above) but with an *unsatisfied* tag are selected in the creation
+plan:
+
+#+begin_example
+  # INITIAL CREATION PLAN: Pairs computed from tags, with unsatisfied folders.
+  (personal, archive)
+  (work, archive)
+#+end_example
+
+Next step is to recompute (exactly like in initial tagging) tag pairs *from
+the actual filename locations*.  Those are as follows:
+
+#+begin_example
+  # Pairs computed from *paths*
+  (work, sent)      # From /Users/thblt/.mail/work/Sent/cur/1758363106.84057_13.mac,U=28:2,S
+  (personal, inbox) # From /Users/thblt/.mail/personal/inbox/cur/1758363106.84057_13.mac,U=13:2,S
+#+end_example
+
+~legal_pairs - path_pairs~ gives us ~deletion_plan~, in its final
+form.
+
+#+begin_example
+  # Deletion plan
+  (personal, inbox) # We will delete /Users/thblt/.mail/personal/inbox/cur/1758363106.84057_13.mac,U=13:2,S
+#+end_example
+
+Executing this plan as-is will create two new copies but delete only
+one, which violates principle 1 (we *move* mail, not multiply it).
+Principle 2 states that we must respect account boundaries, and thus
+we’re only allowed to create copies where we delete them.  We update
+the creation plan by keeping only the pairs whose *account* tag also
+appears in the *deletion* plan.
+
+#+begin_example
+  # Final creation plan
+  (personal, archive)
+#+end_example
+
+We’ll now run one final check: we compare the length of the deletion
+plan with the length of the creation plan, making sure they’re
+identical.   We also compare those lengths for each account, making
+sure we’ll create and delete exactly as many emails in each account.
+
+(nmrefile has a flag, ~--extra-delete~, that lets it delete more
+copies than it creates.  Use with extra caution --- or even better,
+use with ~--dry-run~, review the plan, and apply manually!

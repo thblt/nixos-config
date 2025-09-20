@@ -1,0 +1,5 @@
+#!/bin/sh
+
+set -e
+"$(dirname "$(realpath $0)")"/nmrefile -v 
+mbsync -a

@@ -1,0 +1,327 @@
+#! /usr/bin/env nix-shell
+#! nix-shell -i python -p python3Packages.notmuch2 python3
+#
+# A slightly paranoid notmuch/mbsync mail refiling script.  This isn’t
+# a general solution.
+
+import os
+import re
+import shutil
+import sys
+from pathlib import Path
+
+import notmuch2
+
+# Configuration
+
+# Path to maildir root
+root = Path(os.path.expanduser("~/.mail"))
+
+# List of account tags/imap folders (those should be the same)
+accounts = ["work", "personal"]
+
+# dict of folder tags and real folder names.
+# This works because all my accounts use the same folder names,
+# but more complexe setups may require a more complex function.
+folders = {
+    "inbox": "Inbox",
+    "sent": "Sent",
+    "spam": "Junk",
+    "drafts": "Drafts",
+    "archive": "Archive",
+    "deleted": "Trash",
+}
+
+# Build the reverse dict
+folders_rev = {v:k for k,v in folders.items()}
+
+# If a message has a tag in this list,
+# its processing stops immediately.
+# new messages should be processed by notmuch first,
+# lost messages are in a bad state.
+poisoned_tags = ["new", "lost"]
+
+# Enable verbose output
+verbose = False
+
+# If true, don’t do anything
+simulate = False
+
+# If true, allow deletion of more copies than we create.  This is
+# useful in the rare case where a mail has more copies than needed.
+allow_extra_delete = False
+
+folder_tags = list(folders.keys())
+known_tags = accounts + folder_tags
+
+database = notmuch2.Database(mode=notmuch2.Database.MODE.READ_WRITE)
+
+def prepare_plan(msg):
+    """Compute a plan (a series of file copies and a series of deletions)
+    so that msg ends up in the correct IMAP folders."""
+
+    # List all tags from the message.
+    tags = list(msg.tags)
+
+    info(f"Message has tags: {tags}")
+    # Check that the message doesn’t have any dangerous tags.
+    if [tag for tag in tags if tag in poisoned_tags]:
+        error("Message contains poisoned tags!")
+        return None
+
+    # Tags come in pair: account tags (work, personal), and folder
+    # tags (inbox, archive...)
+    msg_acc_tags = {tag for tag in tags if tag in accounts}
+    msg_folder_tags = {tag for tag in tags if tag in folders.keys()}
+
+    # Build all possible pairs of tags from the account and folder
+    # tags in that message.  This determines the full list of IMAP
+    # copies of that message that must exist.  For example, if a
+    # message has the (work, archive) pair, there must be a copy of
+    # it in /work/Archive/.
+    all_msg_pairs = list()
+    for acc in msg_acc_tags:
+        for folder in msg_folder_tags:
+            all_msg_pairs.append((acc, folder))
+    all_msg_pairs = set(all_msg_pairs) # TODO Use set comprehension
+
+    info(f"Refiling with tags {tags}. File into: [{repr_pairs(all_msg_pairs)}]")
+
+    # If all_msg_pairs is empty, we’re about to destroy that message.
+    # This should never happen if main() does its job correctly.
+    # But we make sure to abort before it happens.
+    if not all_msg_pairs:
+        error("No destination for this message (is it lost?).  Aborting.")
+        return None
+
+    # Get list of actual copies of that messages, as paths in the
+    # maildir store.
+    filenames = list(msg.filenames())
+    assert len(filenames) > 0
+
+    # Associate existing files with (account, folder) tag pairs.
+    # for example, file /home/thblt/.mail/work/Archive/..." corresponds
+    # to the (work, archive) tag pair.
+    existing_files = dict()
+    for fn in filenames:
+        (file_acc, file_folder) = path_to_tags(fn)
+        info(f"{file_acc},{file_folder} exists at {fn}")
+        existing_files[(file_acc, file_folder)] = fn
+
+    # Start deciding what to do.  At this point, we only work with tag
+    # pairs.
+
+    # These are the tag pairs describing copies that already exist.
+    existing_pairs = set(existing_files.keys())
+
+    # Another check: the accounts in existing_pair must be the same in
+    # msg_acc_tags: we don’t work accross account boundaries (but a
+    # message may be in multiple accounts!)
+    if msg_acc_tags != {acc for (acc,_) in existing_pairs}:
+        error("Account tags and maildir files don’t match.  Aborting to respect account boundaries.")
+        return None
+
+    satisfied_folder_tags = {tag for (_, tag) in existing_pairs}
+    unsatisfied_folder_tags = {tag for tag in msg_folder_tags if not tag in satisfied_folder_tags}
+
+    # Things that exist but aren’t wanted will be deleted.
+    delete_pairs = existing_pairs - all_msg_pairs
+
+    possible_pairs = all_msg_pairs - existing_pairs
+
+    create_pairs = set()
+    # Now we need to decide where to create new copies.  We can’t just
+    # create every file in all_msg_pairs, because the self-mail from
+    # one account to another issue.  We first enumerate the accounts
+    # from which we will delete files:
+    for account in {acc for (acc,_) in delete_pairs}:
+        # And then we add all possible pairs for that account.
+        create_pairs = create_pairs.union({(acc,folder) for (acc,folder)
+                         in possible_pairs
+                         if acc == account and not (folder in satisfied_folder_tags)})
+
+    # Identify folder tags that remain unsatisfied:
+    still_unsatisfied = {tag for tag in unsatisfied_folder_tags if not tag in {fldr for (_, fldr) in create_pairs}}
+    if still_unsatisfied:
+        notice(f"Plan will not satisfy folder tags {still_unsatisfied}.  Message may be overtagged.")
+
+    # Show the plan before the last checks.
+    info(f"Plan is: create [{repr_pairs(create_pairs)}], delete [{repr_pairs(delete_pairs)}]")
+
+    # Consistency check.  This is not a mail multiplicator, but a
+    # mover.  We thus want to have exactly as many deletions than
+    # creations, on each account.  The user can override this (with
+    # caution!) if a mail somehow ended up in too many folders.
+    for account in accounts:
+        copies = len([(acc,folder) for (acc,folder) in create_pairs if acc==account])
+        deletions = len([(acc,folder) for (acc,folder) in delete_pairs if acc==account])
+        if not (allow_extra_delete or copies == deletions):
+            error(f"Plan would create {copies} new copies, but delete {deletions}.  Use --extra-delete to allow that.")
+
+    # Absolute sanity check: we must NOT delete all copies of a
+    # message.  This is an integrity check: it’s a bug if this
+    # happens.
+    if (len(existing_pairs) - len(delete_pairs)) + len(create_pairs) < 1:
+        error("FUCK.  This plan would not preserve any copy.  THIS IS A BUG.")
+        return None
+
+    # Sanity check.  There must be no intersection between the sets.
+    # And the intersection of the sets must be empty
+    assert not existing_pairs.intersection(create_pairs)
+    assert not delete_pairs.intersection(create_pairs)
+    assert not delete_pairs - existing_pairs
+
+    if not (delete_pairs or create_pairs):
+        log("Nothing to do here.")
+        return None
+
+    copy_from = filenames[0]
+    copy_plan = [
+        (copy_from, tags_to_path(acc, fldr)) for (acc, fldr) in create_pairs
+    ]
+
+    delete_plan = [
+        path for (pair, path) in existing_files.items() if pair in delete_pairs
+    ]
+
+    assert copy_plan or delete_plan
+    return copy_plan, delete_plan
+
+
+
+def main():
+    """The main entry point.
+
+    This function generate queries to identify misplaced messages,
+    and executes them through run_query.
+    """
+    found = 0
+    modified = 0
+    for (folder_tag, folder_name) in folders.items():
+        for acc in accounts:
+            # Build a query looking for messages whose paths don’t
+            # match tags.
+            query = f"(tag:{acc} and tag:{folder_tag}) xor folder:/{acc}/{folder_name}/"
+            (f, m) = run_query(query)
+            found += f
+            modified += m
+
+    log(f"All done. {found} messages processed, {modified} modified.")
+
+def run_query(query):
+    info(f"Running query {query}")
+    found = 0
+    modified = 0
+    # Run this query on database
+    for msg in database.messages(query):
+        found += 1
+        log_start(f"* Processing {msg.messageid}")
+        plan = prepare_plan(msg)
+        if plan:
+            modified += 1
+            execute_plan(msg, plan[0], plan[1])
+            log(f"Done {msg.messageid}.")
+        else:
+            info(f"No plan returned for {msg.messageid}.")
+    return (found, modified)
+
+def execute_plan(msg, copy_plan, delete_plan):
+    copy = []
+    for source, dest_dir in copy_plan:
+        dest_name = re.sub(",U=[0-9]+", "", source.name)
+        if source.name == dest_name:
+            notice("source and destination names are identical. This may happen if you move the same message multiple times before running mbsync.")
+        dest = dest_dir / dest_name
+        assert os.path.exists(source) and os.path.isfile(source)
+        assert not os.path.exists(dest)
+        copy.append((str(source), str(dest)))
+
+    for path in delete_plan:
+        assert os.path.exists(path)
+        assert os.path.isfile(path)
+
+    info("Executing plan...")
+
+    for source, dest in copy:
+        log(f"Copy {source} => {dest}")
+        if not simulate:
+            shutil.copy(source, dest)
+            database.add(dest)
+
+    for path in delete_plan:
+        log(f"Delete {path}")
+        if not simulate:
+            os.unlink(path)
+            database.remove(path)
+
+def tags_to_path(account, folder):
+    return root / account / folders[folder] / "new"
+
+def path_to_tags(path):
+    """Compute tags for a given path.  This will return either a pair
+    or None, check the output (at least by deconstructing the pair)
+    """
+    parts = path.relative_to(root).parts
+    if len(parts) != 4:
+        error(
+            f"Path {fn} expands to {len(parts)} components relatively to root, expected 4."
+        )
+        return None
+    file_acc = parts[0] if parts[0] in accounts else None
+    file_folder = folders_rev.get(parts[1])
+    assert parts[2] in { "cur", "new" }
+
+    if file_acc and file_folder:
+        return (file_acc, file_folder)
+    else:
+        error(
+            f"Cannot convert path {fn} to tags. Acc={file_acc}, folder={file_folder}"
+        )
+        return None
+
+def repr_pairs(pairs):
+    return ", ".join([repr_pair(pair) for pair in pairs])
+
+def repr_pair(pair):
+    return f"({pair[0]},{pair[1]})"
+
+COLOR_GREEN = "\033[0;32m"
+COLOR_RED = "\033[0;31m"
+COLOR_YELLOW = "\033[1;33m"
+COLOR_BOLD = "\033[1m"
+COLOR_FAINT = "\033[2m"
+COLOR_END = "\033[0m"
+COLOR_LIGHT_GRAY = "\033[0;37m"
+
+def info(message):
+    if verbose:
+        print_line(message, color=COLOR_FAINT)
+
+def log(message):
+    print_line(message)
+
+def log_start(message):
+    print_line(message, color=COLOR_BOLD + COLOR_GREEN)
+
+def notice(message):
+    print_line(message, color=COLOR_BOLD + COLOR_YELLOW)
+
+def error(message):
+    print_line(message, color=COLOR_BOLD + COLOR_RED)
+
+def print_line(message, color=""):
+    print(f"[nmrefile]{color} {message}{COLOR_END}")
+
+if __name__ == "__main__":
+    for arg in sys.argv[1:]:
+        match arg:
+            case "-v" | "--verbose":
+                verbose=True
+            case "--dry-run":
+                simulate=True
+            case "--extra-delete":
+                allow_extra_delete=True
+            case _:
+                error(f"Unknown argument: {arg}")
+                exit()
+    main()

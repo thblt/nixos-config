@@ -1,4 +1,4 @@
-{ pkgs, lib, inputs, stdenv, ... }:
+{ pkgs, lib, inputs,... }:
 # Ascii art font is Pagga
 let
   is-darwin = (pkgs.system == "aarch64-darwin");
@@ -107,6 +107,10 @@ in {
       enable = true;
       new.tags = [ "new" ];
     };
+
+    home.file.".mail/.notmuch/hooks".source = config.lib.file.mkOutOfStoreSymlink
+      "${flake-root}/dotfiles/notmuch/hooks";
+
     programs.mbsync = { enable = true; };
 
     # ░█▀▀░▀█▀░▀█▀

@@ -1,0 +1,22 @@
+#!/bin/sh
+
+echo "Classifying…"
+
+# Classify by inbox, don't untag new yet
+notmuch tag +work -- "tag:new and folder:/work/"
+notmuch tag +personal -- "tag:new and folder:/personal/"
+
+# inbox
+notmuch tag +inbox -- "tag:new and folder:/\\/Inbox$/"
+notmuch tag +drafts -- "tag:new and folder:/\\/Drafts$/"
+notmuch tag +sent -- "tag:new folder:/\\/Sent$/"
+notmuch tag +archive -- "tag:new and folder:/\\/Archive$/"
+notmuch tag +deleted -- "tag:new folder:/\\/Trash$/"
+notmuch tag +spam -- "tag:new and folder:/\\/Junk$/"
+
+notmuch tag -new "(tag:work or tag:personal) and (tag:inbox or tag:drafts or tag:sent or tag:archive or tag:deleted or tag:spam)"
+notmuch tag -new +lost "tag:new"
+
+# identify lost email
+notmuch tag +lost -- "(not tag:sent) and (not tag:inbox) and (not tag:archive) and (not tag:drafts) and (not tag:deleted)"
+notmuch tag -lost -- "tag:lost and (tag:sent or tag:inbox or tag:archive or tag:drafts or tag:deleted)"
