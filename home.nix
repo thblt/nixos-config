@@ -45,13 +45,18 @@ in {
           src = pkgs.fishPlugins.tide.src;
         }
         {
-          name = "fish-done";
+          name = "done";
           src = pkgs.fishPlugins.done.src;
+        }
+        {
+          name = "fzf";
+          src = pkgs.fishPlugins.fzf.src;
         }
       ];
     };
 
     programs.eza.enable = true;
+    programs.fzf.enable = true; # Not automatically installed by fish-fzf
     home.shell.enableFishIntegration = true;
 
     # zsh MUST be enabled, so values in home.sessionVariables are
