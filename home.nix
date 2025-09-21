@@ -125,7 +125,31 @@ in {
       config.lib.file.mkOutOfStoreSymlink
       "${flake-root}/dotfiles/notmuch/hooks";
 
-    programs.mbsync = { enable = true; };
+    programs.mbsync = {
+      enable = true;
+      extraConfig = ''
+        # This sets the ctime of each e-mail to its original arrival
+        # date as reported by the IMAP servers.  This has no effect on
+        # notmuch, which uses the date/time recorded in the e-mail
+        # header anyway, but other clients (including iOS Mail) use
+        # the file ctime as the message date.  If we didn’t enable
+        # this, message files would have their ctime set to the date
+        # they were first downloaded on this computer (say 2025-12-19)
+        # instead of the date they were sent or received (say
+        # 2024-03-21).  If we later moved a message to another maildir
+        # folder (eg to archive it) before syncing it back with
+        # mbsync, Apple Mail would assign them a wrong date
+        # (2025-12-19), even if the file copy had preserved all
+        # metadata.
+        #
+        # NOTE: there *are* wrongly timestamped messages in my emails!
+        # (Which means: be careful which messages you test with,
+        # because they may already be incorrect, and notmuch wouldn’t
+        # show it)
+
+        CopyArrivalDate on
+      '';
+    };
 
     # ░█▀▀░▀█▀░▀█▀
     # ░█░█░░█░░░█░

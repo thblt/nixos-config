@@ -1,5 +1,7 @@
 #+TITLE: A DWIM maildir refiler for notmuch
 
+TODO: mbsync copyarrivaldate
+
 I love notmuch for a lot of reasons,
 
 but like many people I also need to access my mail from my phone,
