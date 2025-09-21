@@ -1,4 +1,4 @@
-{ pkgs, lib, inputs,... }:
+{ pkgs, lib, inputs, ... }:
 # Ascii art font is Pagga
 let
   is-darwin = (pkgs.system == "aarch64-darwin");
@@ -69,6 +69,13 @@ in {
       accounts.personal = {
         primary = true;
         address = "thibault@thb.lt";
+        aliases = [
+          "tpolge@gmail.com"
+          "t.polge@gmail.com"
+          "thibault.polge@univ-paris1.fr"
+          "thibault.polge@malix.univ-paris1.fr"
+          "thibault.polge@etu.univ-paris1.fr"
+        ];
         userName = "thibault@thb.lt";
         realName = "Thibault Polge";
         imap.host = "ssl0.ovh.net";
@@ -86,6 +93,8 @@ in {
 
       accounts.work = {
         address = "thibault.polge@ac-amiens.fr";
+        aliases =
+          [ "tpolge@ac-amiens.fr" "thibault.polge@ac-orleans-tours.fr" ];
         userName = "tpolge";
         realName = "Thibault Polge";
         imap.host = "imap.ac-amiens.fr";
@@ -100,7 +109,6 @@ in {
         };
         notmuch.enable = true;
       };
-
     };
 
     programs.notmuch = {
@@ -108,7 +116,8 @@ in {
       new.tags = [ "new" ];
     };
 
-    home.file.".mail/.notmuch/hooks".source = config.lib.file.mkOutOfStoreSymlink
+    home.file.".mail/.notmuch/hooks".source =
+      config.lib.file.mkOutOfStoreSymlink
       "${flake-root}/dotfiles/notmuch/hooks";
 
     programs.mbsync = { enable = true; };
