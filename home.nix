@@ -258,6 +258,11 @@ in {
         ] ++ lib.optionals is-darwin [ epkgs.exec-path-from-shell ]));
     };
 
+    home.packages = with pkgs;
+      [
+        (aspellWithDicts (dicts: with dicts; [ aspellDicts.fr aspellDicts.en ]))
+      ];
+
     services.emacs = { enable = true; };
 
     # ░█░█░█▀▀░▀▀█░▀█▀░█▀▀░█▀▄░█▄█
