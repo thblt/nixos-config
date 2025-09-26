@@ -8,6 +8,8 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nix-darwin.url = "github:nix-darwin/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+    mac-app-util.url = "github:hraban/mac-app-util";
+    mac-app-util.inputs.nixpkgs.follows = "nixpkgs";
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
     nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
     helix.url = "github:helix-editor/helix/25.07";
@@ -20,47 +22,58 @@
     aspell-merge3.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nixos, home-manager, nixos-wsl, nix-darwin, ... }: {
+  outputs = inputs@{ self, nixos, home-manager, nixos-wsl, nix-darwin
+    , mac-app-util, ... }: {
 
-    # DRU (Thinkpad X270)
-    nixosConfigurations.dru = nixos.lib.nixosSystem {
-      system = "x86_64-linux";
-      specialArgs = { inherit inputs; };
-      modules = [ ./configuration-dru.nix ];
-    };
+      # DRU (Thinkpad X270)
+      nixosConfigurations.dru = nixos.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [ ./configuration-dru.nix ];
+      };
 
-    # MARGOLOTTA
-    nixosConfigurations.margolotta = nixos.lib.nixosSystem {
-      system = "x86_64-linux";
-      specialArgs = { inherit inputs; };
-      modules = [
-        ./configuration-margolotta.nix
-        home-manager.nixosModules.home-manager
-      ];
-    };
+      # MARGOLOTTA
+      nixosConfigurations.margolotta = nixos.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./configuration-margolotta.nix
+          home-manager.nixosModules.home-manager
+        ];
+      };
 
-    # WSL
-    nixosConfigurations.nixos = nixos.lib.nixosSystem {
-      system = "x86_64-linux";
-      specialArgs = { inherit inputs; };
-      modules = [
-        nixos-wsl.nixosModules.default
-        {
-          # Set this here, so multiple WSL hosts in the future can
-          # have different stateVersion with the same config module.
-          system.stateVersion = "24.05";
-          wsl.enable = true;
-        }
-        ./configuration-wsl.nix
-      ];
-    };
+      # WSL
+      nixosConfigurations.nixos = nixos.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [
+          nixos-wsl.nixosModules.default
+          {
+            # Set this here, so multiple WSL hosts in the future can
+            # have different stateVersion with the same config module.
+            system.stateVersion = "24.05";
+            wsl.enable = true;
+          }
+          ./configuration-wsl.nix
+        ];
+      };
 
-    # Darwin
-    darwinConfigurations."MBA-Thibault" = nix-darwin.lib.darwinSystem {
-      specialArgs = { inherit inputs; };
-      system.configurationRevision = self.rev or self.dirtyRev or null;
-      modules =
-        [ home-manager.darwinModules.home-manager ./configuration-darwin.nix ];
+      # Darwin
+      darwinConfigurations."MBA-Thibault" = nix-darwin.lib.darwinSystem {
+        specialArgs = { inherit inputs; };
+        system.configurationRevision = self.rev or self.dirtyRev or null;
+        modules = [
+          home-manager.darwinModules.home-manager
+          ./configuration-darwin.nix
+          # mac-app-util creates application trampolines
+          # that spotlight can see.  Spotlight can’t otherwise
+          # launch home-manager apps.
+          mac-app-util.darwinModules.default
+          {
+            home-manager.sharedModules =
+              [ mac-app-util.homeManagerModules.default ];
+          }
+        ];
+      };
     };
-  };
 }
