@@ -282,10 +282,10 @@ in {
         ] ++ lib.optionals is-darwin [ epkgs.exec-path-from-shell ]));
     };
 
-    home.packages = with pkgs;
-      [
-        (aspellWithDicts (dicts: with dicts; [ aspellDicts.fr aspellDicts.en ]))
-      ];
+    home.packages = with pkgs; [
+      (aspellWithDicts (dicts: with dicts; [ aspellDicts.fr aspellDicts.en ]))
+      inputs.pgp-words.outputs.defaultPackage.${pkgs.system}
+    ];
 
     services.emacs = { enable = true; };
 
