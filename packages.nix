@@ -72,12 +72,6 @@ in {
       # *** More apps
 
       # ** Emacs and friends
-      mu
-      notmuch
-      afew
-
-      # enemies
-      helix
 
       # ** Programming tools
 

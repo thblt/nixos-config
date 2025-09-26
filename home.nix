@@ -264,8 +264,6 @@ in {
           smartparens
           super-save
           sway
-          tablist
-          treepy
           treesit-grammars.with-all-grammars
           unfill
           unkillable-scratch
@@ -278,6 +276,7 @@ in {
           with-editor
           yaml
           yasnippet
+          yasnippet-snippets
           aggressive-indent
         ] ++ lib.optionals is-darwin [ epkgs.exec-path-from-shell ]));
     };

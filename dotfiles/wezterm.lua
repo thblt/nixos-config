@@ -21,7 +21,7 @@ function scheme_for_appearance(appearance)
   if appearance:find 'Dark' then
     return 'DoomOne'
   else
-    return 'Solarized Light (Gogh)'
+    return 'Github (base16)'
   end
 end
 
