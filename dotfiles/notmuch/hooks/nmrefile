@@ -409,7 +409,7 @@ def path_to_tags(path):
     parts = path.relative_to(ROOT).parts
     if len(parts) != 4:
         error(
-            f"Path {fn} expands to {len(parts)} components relatively to root, expected 4."
+            f"Path {path} expands to {len(parts)} components relatively to root, expected 4."
         )
         return None
     file_acc = parts[0] if parts[0] in ACCOUNTS else None
