@@ -10,20 +10,21 @@ config.default_prog = { '/Users/thblt/.nix-profile/bin/fish', '-l' }
 config.native_macos_fullscreen_mode = false
 config.macos_fullscreen_extend_behind_notch = true
 
-function get_appearance()
-  if wezterm.gui then
-    return wezterm.gui.get_appearance()
-  end
-  return 'Dark'
-end
+config.color_scheme = "DoomOne"
+-- function get_appearance()
+--   if wezterm.gui then
+--     return wezterm.gui.get_appearance()
+--   end
+--   return 'Dark'
+-- end
 
-function scheme_for_appearance(appearance)
-  if appearance:find 'Dark' then
-    return 'DoomOne'
-  else
-    return 'Github (base16)'
-  end
-end
+-- function scheme_for_appearance(appearance)
+--   if appearance:find 'Dark' then
+--     return 'DoomOne'
+--   else
+--     return 'Github (base16)'
+--   end
+-- end
 
-  config.color_scheme = scheme_for_appearance(get_appearance())
+--   config.color_scheme = scheme_for_appearance(get_appearance())
   return config
