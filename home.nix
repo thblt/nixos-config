@@ -41,10 +41,6 @@ in {
       enable = true;
       plugins = [
         {
-          name = "tide";
-          src = pkgs.fishPlugins.tide.src;
-        }
-        {
           name = "done";
           src = pkgs.fishPlugins.done.src;
         }
@@ -59,6 +55,11 @@ in {
       ];
     };
 
+    programs.starship = {
+      enable = true;
+      enableFishIntegration = true;
+      enableTransience = true;
+    };
     programs.eza.enable = true;
     programs.fzf.enable = true; # Not automatically installed by fish-fzf
     home.shell.enableFishIntegration = true;
