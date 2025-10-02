@@ -39,6 +39,10 @@ in {
 
     programs.fish = {
       enable = true;
+      functions = {
+        e.body = "emacsclient -c --no-wait $argv";
+        fish_greeting.body = "echo 🐟";
+      };
       plugins = [
         {
           name = "done";
