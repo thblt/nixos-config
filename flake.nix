@@ -47,14 +47,9 @@
         system = "x86_64-linux";
         specialArgs = { inherit inputs; };
         modules = [
-          nixos-wsl.nixosModules.default
-          {
-            # Set this here, so multiple WSL hosts in the future can
-            # have different stateVersion with the same config module.
-            system.stateVersion = "24.05";
-            wsl.enable = true;
-          }
           ./configuration-wsl.nix
+          nixos-wsl.nixosModules.default
+          home-manager.nixosModules.home-manager
         ];
       };
 
