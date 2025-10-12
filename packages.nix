@@ -23,8 +23,6 @@ in {
 
     # Base system (Linux only, not on Darwin)
     lib.optionals isLinux [
-
-      acpi
       file
       htop
       p7zip
