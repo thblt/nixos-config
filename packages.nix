@@ -90,7 +90,6 @@ in {
       # *** Haskell
       cabal-install
       ghc
-      haskellPackages.apply-refact
       haskellPackages.haskell-language-server
       hlint
       haskellPackages.hoogle

@@ -157,7 +157,7 @@
 
   services.udisks2.enable = true;
 
-  virtualisation.virtualbox.host.enable = true;
+  # virtualisation.virtualbox.host.enable = true;
 
   nixpkgs.config.allowUnfree = true;
   hardware.enableRedistributableFirmware = true;
