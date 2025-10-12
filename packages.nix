@@ -62,6 +62,7 @@ in {
 
       hugo
       imagemagick
+      kalamine
       neofetch # I know.
       qmk
       qrencode
