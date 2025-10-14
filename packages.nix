@@ -125,10 +125,7 @@ in {
       sass
       yarn
 
-    ] ++
-
-    # Large graphical programs that should only be installed in real Linux
-    lib.optionals (stdenv.isLinux && !config ? wsl.enable) [
+    ] ++ lib.optionals isDarwin [ kanata ] ++ lib.optionals isPureLinux [
       # Large graphical programs we don't need/want in WSL
       auto-multiple-choice
       bitwarden
