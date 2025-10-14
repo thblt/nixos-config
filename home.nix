@@ -72,14 +72,20 @@ in {
     # exec-path-from-shell in Emacs.
     programs.zsh.enable = true;
 
-    home.file.".local/bin".source =
-      config.lib.file.mkOutOfStoreSymlink "${flake-root}/dotfiles/bin";
-
-    home.file.".profile".text = ''
-      . $HOME/.nix-profile/etc/profile.d/*.sh;
-    '';
-
-    home.sessionPath = [ "$HOME/.local/bin" ];
+    xdg = {
+      enable = true;
+      userDirs = {
+        enable = !is-darwin;
+        desktop = "${config.home.homeDirectory}/Bureau";
+        documents = "${config.home.homeDirectory}/Documents";
+        download = "${config.home.homeDirectory}/Téléchargements";
+        music = "${config.home.homeDirectory}/Musique";
+        pictures = "${config.home.homeDirectory}/Images";
+        publicShare = "${config.home.homeDirectory}/Public";
+        templates = "${config.home.homeDirectory}/Modèles";
+        videos = "${config.home.homeDirectory}/Vidéos";
+      };
+    };
 
     # ░█▀▀░█▄█░█▀█░▀█▀░█░░
     # ░█▀▀░█░█░█▀█░░█░░█░░
