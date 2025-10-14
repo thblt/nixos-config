@@ -1,0 +1,34 @@
+theme = "catppuccin_frappe"
+
+[editor]
+true-color = true
+line-number = "relative"
+mouse = false
+auto-save = true
+# Minimum severity to show a diagnostic after the end of a line:
+end-of-line-diagnostics = "hint"
+indent-guides.render = true
+gutters = ["diagnostics", "line-numbers", "spacer"]
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
+
+[editor.file-picker]
+hidden = true
+
+[editor.lsp]
+display-inlay-hints = false
+auto-signature-help = true
+snippets = true
+
+[editor.inline-diagnostics]
+# Minimum severity to show a diagnostic on the primary cursor's line.
+# Note that `cursor-line` diagnostics are hidden in insert mode.
+cursor-line = "warning"
+other-lines = "error"
+
+[keys.normal.space]
+"H" = ":toggle lsp.display-inlay-hints"
+

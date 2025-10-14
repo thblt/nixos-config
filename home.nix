@@ -235,6 +235,8 @@ in {
     # ░▀░▀░▀▀▀░▀▀▀░▀▀▀░▀░▀
 
     programs.helix = { enable = true; };
+    xdg.configFile."helix".source =
+      config.lib.file.mkOutOfStoreSymlink "${flake-root}/dotfiles/helix";
 
     # ░█▀▀░█▄█░█▀█░█▀▀░█▀▀
     # ░█▀▀░█░█░█▀█░█░░░▀▀█
