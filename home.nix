@@ -75,6 +75,12 @@ in {
     home.file.".local/bin".source =
       config.lib.file.mkOutOfStoreSymlink "${flake-root}/dotfiles/bin";
 
+    home.file.".profile".text = ''
+      . $HOME/.nix-profile/etc/profile.d/*.sh;
+    '';
+
+    home.sessionPath = [ "$HOME/.local/bin" ];
+
     # ░█▀▀░█▄█░█▀█░▀█▀░█░░
     # ░█▀▀░█░█░█▀█░░█░░█░░
     # ░▀▀▀░▀░▀░▀░▀░▀▀▀░▀▀▀
