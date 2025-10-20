@@ -4,7 +4,7 @@ let
   is-darwin = (pkgs.system == "aarch64-darwin");
 
   flake-root = if is-darwin then "/etc/nix-darwin/" else "/etc/nixos/";
-  my-pinentry = if is-darwin then pkgs.pinentry_mac else pkgs.pinentry-gnome3;
+  my-pinentry = if is-darwin then pkgs.pinentry_mac else pkgs.pinentry-gtk2;
 
   my-public-ssh-key =
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA0KP6qcGX9MKolHQd+43v+HyQijegFMoQg+AxDii2vq";
