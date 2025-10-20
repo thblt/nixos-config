@@ -72,6 +72,9 @@ in {
     # exec-path-from-shell in Emacs.
     programs.zsh.enable = true;
 
+    home.file.".local/bin".source =
+      config.lib.file.mkOutOfStoreSymlink "${flake-root}/dotfiles/bin";
+
     # ░█▀▀░█▄█░█▀█░▀█▀░█░░
     # ░█▀▀░█░█░█▀█░░█░░█░░
     # ░▀▀▀░▀░▀░▀░▀░▀▀▀░▀▀▀
