@@ -99,6 +99,7 @@
         swaylock
         udiskie
         waybar
+        wev
         wl-clipboard
         #(import ./packages/wl-ime-type.nix)
         xdg-utils
