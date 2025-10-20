@@ -109,7 +109,10 @@
       ];
     };
 
+    # Let Nix manage both shells: zsh for the login shell,
+    # fish for my main shell.  (fish cannot be a login shell)
     fish.enable = true;
+    zsh.enable = true;
   };
 
   # Printing
@@ -134,9 +137,9 @@
   # programs.steam.enable = false
 
   users = {
-    # The NixOS wiki warns NOT to set fish as the login shell, as it's not
-    # posix-compliant.
-    defaultUserShell = pkgs.bash;
+    # The NixOS wiki warns NOT to set fish as the login shell, as it's
+    # not posix-compliant.
+    defaultUserShell = pkgs.zsh;
     extraUsers.thblt = {
       isNormalUser = true;
       extraGroups = [

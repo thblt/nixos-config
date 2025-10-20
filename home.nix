@@ -30,7 +30,6 @@ in {
     home.sessionVariables."SSH_AUTH_SOCK" = if is-darwin then
       "$(getconf DARWIN_USER_TEMP_DIR)rbw-$(id -u)/ssh-agent-socket"
     else
-    # ~ doesn't seem to work here.
       "$XDG_RUNTIME_DIR/rbw/ssh-agent-socket";
 
     # ░█▀▀░█░█░█▀▀░█░░░█░░
