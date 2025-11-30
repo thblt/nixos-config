@@ -1,7 +1,7 @@
 { pkgs, lib, inputs, ... }:
 # Ascii art font is Pagga
 let
-  is-darwin = (pkgs.system == "aarch64-darwin");
+  is-darwin = (pkgs.stdenv.hostPlatform.system == "aarch64-darwin");
 
   flake-root = if is-darwin then "/etc/nix-darwin/" else "/etc/nixos/";
   my-pinentry = if is-darwin then pkgs.pinentry_mac else pkgs.pinentry-gtk2;
@@ -180,16 +180,23 @@ in {
 
     programs.git = {
       enable = true;
-      userName = "Thibault Polge";
-      userEmail = "thibault@thb.lt";
+      # settings = {
+      # userName = [ true ];
+      # userEmail = [ true ];
+      # };
       signing = {
         signByDefault = true;
         format = "ssh";
         key = my-public-ssh-key;
       };
-      extraConfig = {
+      settings = {
+        user = {
+          name = "Thibault Polge";
+          email = "thibault@thb.lt";
+        };
         init.defaultBranch = "main";
         gpg.ssh.allowedSignersFile = "~/.ssh/allowed_signers";
+        url."ssh://git@codeberg.org/".pushInsteadOf = "https://codeberg.org/";
         url."ssh://git@github.com/".pushInsteadOf = "https://github.com/";
         url."ssh://git@gitlab.com/".pushInsteadOf = "https://gitlab.com/";
         url."ssh://git@git.sr.ht/".pushInsteadOf = "https://git.sr.ht/";
@@ -306,11 +313,6 @@ in {
         ] ++ lib.optionals is-darwin [ epkgs.exec-path-from-shell ]));
     };
 
-    home.packages = with pkgs; [
-      (aspellWithDicts (dicts: with dicts; [ aspellDicts.fr aspellDicts.en ]))
-      inputs.pgp-words.outputs.defaultPackage.${pkgs.system}
-    ];
-
     services.emacs = { enable = true; };
 
     # ░█░█░█▀▀░▀▀█░▀█▀░█▀▀░█▀▄░█▄█
@@ -321,5 +323,14 @@ in {
 
     xdg.configFile."wezterm/wezterm.lua".source =
       config.lib.file.mkOutOfStoreSymlink "${flake-root}/dotfiles/wezterm.lua";
+
+    # ░█▄█░▀█▀░█▀▀░█▀▀
+    # ░█░█░░█░░▀▀█░█░░
+    # ░▀░▀░▀▀▀░▀▀▀░▀▀▀
+
+    home.packages = with pkgs; [
+      (aspellWithDicts (dicts: with dicts; [ aspellDicts.fr aspellDicts.en ]))
+      inputs.pgp-words.outputs.defaultPackage.${pkgs.system}
+    ];
   };
 }
