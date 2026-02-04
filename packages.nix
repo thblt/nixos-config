@@ -96,7 +96,7 @@ in {
       stack
       # *** Nix
       nixd
-      nixfmt-classic
+      nixfmt
       # *** Lisps
       chez
       # racket # Fails on Darwin
