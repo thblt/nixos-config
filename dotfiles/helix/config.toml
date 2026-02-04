@@ -3,7 +3,7 @@ theme = "catppuccin_frappe"
 [editor]
 true-color = true
 line-number = "relative"
-mouse = false
+mouse = true
 auto-save = true
 # Minimum severity to show a diagnostic after the end of a line:
 end-of-line-diagnostics = "hint"
