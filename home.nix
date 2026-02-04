@@ -2,7 +2,6 @@
 # Ascii art font is Pagga
 let
   is-darwin = (pkgs.stdenv.hostPlatform.system == "aarch64-darwin");
-
   flake-root = if is-darwin then "/etc/nix-darwin/" else "/etc/nixos/";
   my-pinentry = if is-darwin then pkgs.pinentry_mac else pkgs.pinentry-gtk2;
 
