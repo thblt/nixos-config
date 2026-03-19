@@ -70,13 +70,11 @@
   time.hardwareClockInLocalTime = true;
 
   programs = {
-    command-not-found.enable = true;
-    file-roller.enable = true;
+    nix-index.enable = true;
     gnupg.agent = {
       enable = true;
       enableSSHSupport = false;
     };
-    light.enable = true;
     sway = {
       enable = true;
       wrapperFeatures.gtk = true;
@@ -117,7 +115,10 @@
   # Printing
   services.printing = {
     enable = true;
-    drivers = with pkgs; [ samsung-unified-linux-driver brgenml1cupswrapper ];
+    drivers = with pkgs; [
+      samsung-unified-linux-driver
+      brgenml1cupswrapper
+    ];
   };
 
   nix.gc = {
@@ -126,13 +127,17 @@
   };
 
   fonts.fontDir.enable = true;
-  fonts.packages =
-    [ pkgs.iosevka pkgs.libertine pkgs.open-sans pkgs.fira-code ];
+  fonts.packages = [
+    pkgs.iosevka
+    pkgs.libertine
+    pkgs.open-sans
+    pkgs.fira-code
+  ];
 
   services.keybase.enable = false;
   services.gnome.gnome-keyring.enable = pkgs.lib.mkForce false;
   services.pcscd.enable = true; # Smartcard support
-  programs.gnupg.agent.pinentryPackage = pkgs.pinentry-gtk2;
+  programs.gnupg.agent.pinentryPackage = pkgs.pinentry-gnome3;
   # programs.steam.enable = false
 
   users = {
@@ -165,5 +170,8 @@
   nixpkgs.config.allowUnfree = true;
   hardware.enableRedistributableFirmware = true;
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 }

@@ -15,7 +15,11 @@
 {
   networking.hostName = "dru";
 
-  imports = [ ./hardware-configuration-dru.nix ./common.nix ./packages.nix ];
+  imports = [
+    ./hardware-configuration-dru.nix
+    ./common.nix
+    ./packages.nix
+  ];
 
   # TODO Find a way to move most of this to common.
   boot.initrd.luks.devices = {

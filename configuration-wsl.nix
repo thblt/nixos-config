@@ -1,7 +1,16 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
-  imports = [ ./common.nix ./packages.nix ./home.nix ];
+  imports = [
+    ./common.nix
+    ./packages.nix
+    ./home.nix
+  ];
 
   wsl.enable = true;
 

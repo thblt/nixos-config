@@ -23,8 +23,17 @@
     aspell-merge3.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nixos, home-manager, nixos-wsl, nix-darwin
-    , mac-app-util, ... }: {
+  outputs =
+    inputs@{
+      self,
+      nixos,
+      home-manager,
+      nixos-wsl,
+      nix-darwin,
+      mac-app-util,
+      ...
+    }:
+    {
 
       # DRU (Thinkpad X270)
       nixosConfigurations.dru = nixos.lib.nixosSystem {
@@ -66,8 +75,7 @@
           # launch home-manager apps.
           mac-app-util.darwinModules.default
           {
-            home-manager.sharedModules =
-              [ mac-app-util.homeManagerModules.default ];
+            home-manager.sharedModules = [ mac-app-util.homeManagerModules.default ];
           }
         ];
       };

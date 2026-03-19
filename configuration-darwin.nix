@@ -8,11 +8,17 @@
     };
   };
 
-  imports = [ ./packages.nix ./home.nix ];
+  imports = [
+    ./packages.nix
+    ./home.nix
+  ];
 
   security.pam.services.sudo_local.touchIdAuth = true;
 
-  fonts.packages = [ pkgs.iosevka pkgs.fira-code ];
+  fonts.packages = [
+    pkgs.iosevka
+    pkgs.fira-code
+  ];
 
   # Fish must be enabled from nix-darwin, and not just home-manager,
   # to correctly set nix paths in interactive use.
@@ -23,7 +29,9 @@
 
   # Note to self: nix-darwin won’t change a user’s shell except when
   # creating that user.  Don’t try to enable fish here.
-  users.users.thblt = { home = "/Users/thblt"; };
+  users.users.thblt = {
+    home = "/Users/thblt";
+  };
 
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog

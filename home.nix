@@ -1,14 +1,21 @@
-{ pkgs, lib, inputs, ... }:
+{
+  pkgs,
+  isDarwin,
+  lib,
+  inputs,
+  ...
+}:
 # Ascii art font is Pagga
 let
-  is-darwin = (pkgs.stdenv.hostPlatform.system == "aarch64-darwin");
-  flake-root = if is-darwin then "/etc/nix-darwin/" else "/etc/nixos/";
-  my-pinentry = if is-darwin then pkgs.pinentry_mac else pkgs.pinentry-gtk2;
+  inherit (pkgs.stdenv.hostPlatform) isDarwin;
+  inherit (pkgs.stdenv.hostPlatform) system;
+  flake-root = if isDarwin then "/etc/nix-darwin/" else "/etc/nixos/";
+  my-pinentry = if isDarwin then pkgs.pinentry_mac else pkgs.pinentry-gnome3;
 
-  my-public-ssh-key =
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA0KP6qcGX9MKolHQd+43v+HyQijegFMoQg+AxDii2vq";
+  my-public-ssh-key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA0KP6qcGX9MKolHQd+43v+HyQijegFMoQg+AxDii2vq";
 
-in {
+in
+{
   home-manager.users.thblt = { config, ... }: {
 
     # ░█▀▄░▀█▀░▀█▀░█░█░█▀█░█▀▄░█▀▄░█▀▀░█▀█
@@ -26,10 +33,11 @@ in {
       };
     };
 
-    home.sessionVariables."SSH_AUTH_SOCK" = if is-darwin then
-      "$(getconf DARWIN_USER_TEMP_DIR)rbw-$(id -u)/ssh-agent-socket"
-    else
-      "$XDG_RUNTIME_DIR/rbw/ssh-agent-socket";
+    home.sessionVariables."SSH_AUTH_SOCK" =
+      if isDarwin then
+        "$(getconf DARWIN_USER_TEMP_DIR)rbw-$(id -u)/ssh-agent-socket"
+      else
+        "$XDG_RUNTIME_DIR/rbw/ssh-agent-socket";
 
     # ░█▀▀░█░█░█▀▀░█░░░█░░
     # ░▀▀█░█▀█░█▀▀░█░░░█░░
@@ -69,12 +77,16 @@ in {
     # zsh MUST be enabled, so values in home.sessionVariables are
     # correctly set in it, and in turn correctly found by
     # exec-path-from-shell in Emacs.
-    programs.zsh.enable = true;
+    programs.zsh = {
+      enable = true;
+      dotDir = "${config.xdg.configHome}/zsh";
+    };
 
     xdg = {
       enable = true;
       userDirs = {
-        enable = !is-darwin;
+        enable = !isDarwin;
+        setSessionVariables = false;
         desktop = "${config.home.homeDirectory}/Bureau";
         documents = "${config.home.homeDirectory}/Documents";
         download = "${config.home.homeDirectory}/Téléchargements";
@@ -120,8 +132,10 @@ in {
 
       accounts.work = {
         address = "thibault.polge@ac-amiens.fr";
-        aliases =
-          [ "tpolge@ac-amiens.fr" "thibault.polge@ac-orleans-tours.fr" ];
+        aliases = [
+          "tpolge@ac-amiens.fr"
+          "thibault.polge@ac-orleans-tours.fr"
+        ];
         userName = "tpolge";
         realName = "Thibault Polge";
         imap.host = "imap.ac-amiens.fr";
@@ -144,8 +158,7 @@ in {
     };
 
     home.file.".mail/.notmuch/hooks".source =
-      config.lib.file.mkOutOfStoreSymlink
-      "${flake-root}/dotfiles/notmuch/hooks";
+      config.lib.file.mkOutOfStoreSymlink "${flake-root}/dotfiles/notmuch/hooks";
 
     programs.mbsync = {
       enable = true;
@@ -203,8 +216,8 @@ in {
         merge."aspell-merge3" = {
           name = "A merge driver for aspell custom dictionaries.";
           driver = "${
-              inputs.aspell-merge3.outputs.packages.${pkgs.system}.default
-            }/bin/aspell-merge3 %O %A %B --output %A";
+            inputs.aspell-merge3.outputs.packages.${system}.default
+          }/bin/aspell-merge3 %O %A %B --output %A";
         };
       };
 
@@ -233,16 +246,16 @@ in {
       ];
     };
 
-    home.file.".ssh/allowed_signers".text =
-      "thibault@thb.lt ${my-public-ssh-key}";
+    home.file.".ssh/allowed_signers".text = "thibault@thb.lt ${my-public-ssh-key}";
 
     # ░█░█░█▀▀░█░░░▀█▀░█░█
     # ░█▀█░█▀▀░█░░░░█░░▄▀▄
     # ░▀░▀░▀▀▀░▀▀▀░▀▀▀░▀░▀
 
-    programs.helix = { enable = true; };
-    xdg.configFile."helix".source =
-      config.lib.file.mkOutOfStoreSymlink "${flake-root}/dotfiles/helix";
+    programs.helix = {
+      enable = true;
+    };
+    xdg.configFile."helix".source = config.lib.file.mkOutOfStoreSymlink "${flake-root}/dotfiles/helix";
 
     # ░█▀▀░█▄█░█▀█░█▀▀░█▀▀
     # ░█▀▀░█░█░█▀█░█░░░▀▀█
@@ -250,75 +263,84 @@ in {
 
     programs.emacs = {
       enable = true;
-      package = ((pkgs.emacsPackagesFor pkgs.emacs).emacsWithPackages (epkgs:
-        with epkgs;
-        [
-          auctex
-          auto-compile
-          backline
-          beginend
-          bicycle
-          consult
-          corfu
-          diminish
-          dirvish
-          doom-themes
-          editorconfig
-          eldoc-box
-          embark
-          embark-consult
-          emmet-mode
-          erc-hl-nicks
-          evil-nerd-commenter
-          f
-          flyspell-correct
-          forge
-          free-keys
-          haskell-mode
-          hydra
-          loccur
-          magit
-          marginalia
-          markdown-mode
-          mwim
-          nix-mode
-          no-littering
-          notmuch
-          orderless
-          outline-minor-faces
-          pdf-tools
-          rainbow-mode
-          rg
-          s
-          scpaste
-          shackle
-          smartparens
-          super-save
-          sway
-          treesit-grammars.with-all-grammars
-          unfill
-          unkillable-scratch
-          vertico
-          visual-fill-column
-          visual-regexp
-          vterm
-          vundo
-          wgrep
-          with-editor
-          yaml
-          yasnippet
-          yasnippet-snippets
-          aggressive-indent
-        ] ++ lib.optionals is-darwin [ epkgs.exec-path-from-shell ]));
+      package = (
+        (pkgs.emacsPackagesFor pkgs.emacs).emacsWithPackages (
+          epkgs:
+          with epkgs;
+          [
+            auctex
+            auto-compile
+            backline
+            beginend
+            bicycle
+            consult
+            corfu
+            diminish
+            dirvish
+            doom-themes
+            editorconfig
+            eldoc-box
+            embark
+            embark-consult
+            emmet-mode
+            erc-hl-nicks
+            evil-nerd-commenter
+            f
+            flyspell-correct
+            forge
+            free-keys
+            haskell-mode
+            hydra
+            loccur
+            magit
+            marginalia
+            markdown-mode
+            mwim
+            nix-mode
+            no-littering
+            notmuch
+            orderless
+            outline-minor-faces
+            pdf-tools
+            rainbow-mode
+            rg
+            s
+            scpaste
+            shackle
+            smartparens
+            super-save
+            sway
+            treesit-grammars.with-all-grammars
+            unfill
+            unkillable-scratch
+            vertico
+            visual-fill-column
+            visual-regexp
+            vterm
+            vundo
+            wgrep
+            with-editor
+            yaml
+            yasnippet
+            yasnippet-snippets
+            aggressive-indent
+          ]
+          ++ lib.optionals isDarwin [ epkgs.exec-path-from-shell ]
+        )
+      );
     };
 
-    services.emacs = { enable = true; };
+    services.emacs = {
+      enable = true;
+    };
 
     # ░█░█░█▀▀░▀▀█░▀█▀░█▀▀░█▀▄░█▄█
     # ░█▄█░█▀▀░▄▀░░░█░░█▀▀░█▀▄░█░█
     # ░▀░▀░▀▀▀░▀▀▀░░▀░░▀▀▀░▀░▀░▀░▀
 
-    programs.wezterm = { enable = true; };
+    programs.wezterm = {
+      enable = true;
+    };
 
     xdg.configFile."wezterm/wezterm.lua".source =
       config.lib.file.mkOutOfStoreSymlink "${flake-root}/dotfiles/wezterm.lua";
@@ -328,8 +350,13 @@ in {
     # ░▀░▀░▀▀▀░▀▀▀░▀▀▀
 
     home.packages = with pkgs; [
-      (aspellWithDicts (dicts: with dicts; [ aspellDicts.fr aspellDicts.en ]))
-      inputs.pgp-words.outputs.defaultPackage.${pkgs.system}
+      (aspellWithDicts (
+        dicts: with dicts; [
+          aspellDicts.fr
+          aspellDicts.en
+        ]
+      ))
+      inputs.pgp-words.outputs.defaultPackage.${system}
     ];
   };
 }
