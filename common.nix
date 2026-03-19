@@ -42,12 +42,11 @@
 
   # Keyboard and i18n
   i18n.defaultLocale = "fr_FR.UTF-8";
-  console.keyMap = "fr-bepo";
   services.xserver.xkb = {
     layout = "fr";
-    variant = "bepo";
+    variant = "ergol";
   };
-
+  console.useXkbConfig = true;
   hardware = {
     # Funny inputs
     keyboard.qmk.enable = true;
