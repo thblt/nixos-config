@@ -1,0 +1,248 @@
+hide_edge_borders --i3 smart
+default_border pixel
+
+include `hostname`.config
+
+### Variables
+#
+# Logo key. Use Mod1 for Alt.
+set $mod Mod4
+# Home row direction keys, like vim
+set $left b
+set $down n
+set $up p
+set $right f
+
+set $launcher "fuzzel"
+
+font Iosevka 10
+
+### Idle configuration
+
+exec swayidle -w \
+     timeout 600 'swaylock -f -c 000000'            \
+     timeout 600 'swaymsg "output * dpms off"' \
+     resume 'swaymsg "output * dpms on"' \
+     before-sleep 'swaylock -f -c 000000'
+
+exec mako
+exec udiskie
+
+### Input configuration
+
+input "type:keyboard" {
+    xkb_layout "fr,fr"
+    xkb_variant "bepo,ergol"
+    xkb_options "caps:ctrl_modifier"
+    # xkb_file ~/.config/sway/bepo_thblt.xkb
+    repeat_delay 200
+    repeat_rate 60
+    }
+
+input "4176:1031:Yubico_YubiKey_OTP+FIDO+CCID" {
+      xkb_layout "us"
+      xkb_variant "intl"
+}
+
+input "2:7:SynPS/2_Synaptics_TouchPad" {
+      tap enable
+}
+
+input 1739:31251:DLL07BE:01_06CB:7A13_Touchpad {
+    tap enabled
+    }
+
+bindsym $mod+F1 input * xkb_switch_layout next
+# Launchers
+bindsym $mod+dollar exec "alacritty -e fish"
+bindsym $mod+return exec "emacsclient-with-feedback server"
+bindsym $mod+Shift+return exec "emacsclient-with-feedback"
+bindsym $mod+d exec $launcher
+bindsym $mod+j exec emoji-menu
+
+# Audio
+bindsym XF86AudioLowerVolume exec "amixer -c 0 set Master unmute ; amixer -c 0 set Master 2-;"
+bindsym XF86AudioRaiseVolume exec "amixer -c 0 set Master unmute ; amixer -c 0 set Master 2+;"
+bindsym XF86AudioMute exec "amixer set Master toggle;"
+
+# Backlight
+bindsym XF86MonBrightnessUp exec "light -A 5"
+bindsym Shift+XF86MonBrightnessUp exec "light -A 1"
+bindsym XF86MonBrightnessDown exec "light -U 5"
+bindsym Shift+XF86MonBrightnessDown exec "light -U 1"
+bindsym $mod+XF86MonBrightnessUp exec "light -S 100"
+bindsym $mod+XF86MonBrightnessDown exec "light -S 1"
+# For some reasons, my layout doesn't emit symbols.  Here's the same binding as above, with keycodes.
+bindcode 232 exec "light -U 5"
+bindcode 233 exec "light -A 5"
+bindcode Shift+232 exec "light -U 1"
+bindcode Shift+233 exec "light -A 1"
+bindcode $mod+232 exec "light -S 1"
+bindcode $mod+233 exec "light -S 100"
+
+# Eject
+# @TODO Don't hardcode fuzzel
+bindsym $mod+Delete exec umount /run/media/$(whoami)/$(ls --color=no /run/media/$(whoami)/ | fuzzel --dmenu --prompt \"unmount? > \")
+# Printscreen
+bindsym Print exec grimshot copy area
+bindsym Alt+Print exec grimshot copy active
+bindsym $mod+Print exec grimshot save area
+bindsym $mod+Alt+Print exec grimshot save active
+
+# Volume
+bindcode 123 exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindcode 122 exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindcode 121 exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+
+# Kill focused window
+bindsym $mod+c kill
+
+# Lock
+bindsym $mod+escape exec swaylock -f -c 000000
+
+# Drag floating windows by holding down $mod and left mouse button.
+# Resize them with right mouse button + $mod.
+# Despite the name, also works for non-floating windows.
+# Change normal to inverse to use left mouse button for resizing and right
+# mouse button for dragging.
+floating_modifier $mod normal
+
+# Reload the configuration file
+bindsym $mod+Shift+q reload
+
+# Exit sway (logs you out of your Wayland session)
+bindsym $mod+Shift+escape exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+#
+# Moving around:
+#
+# Move your focus around
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
+# Move the focused window with the same, but add Shift
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
+#
+# Workspaces:
+
+set $lc01 quotedbl
+set $lc02 guillemetleft
+set $lc03 guillemetright
+set $lc04 parenleft
+set $lc05 parenright
+set $lc06 at
+set $lc07 plus
+set $lc08 minus
+set $lc09 slash
+set $lc10 asterisk
+set $lc11 equal
+set $lc12 percent
+
+#
+bindsym $mod+1 move container to workspace 1
+bindsym $mod+$lc01 workspace 1
+bindsym $mod+2 move container to workspace 2
+bindsym $mod+$lc02 workspace 2
+bindsym $mod+3 move container to workspace 3
+bindsym $mod+$lc03 workspace 3
+bindsym $mod+4 move container to workspace 4
+bindsym $mod+$lc04 workspace 4
+bindsym $mod+5 move container to workspace 5
+bindsym $mod+$lc05 workspace 5
+bindsym $mod+6 move container to workspace 6
+bindsym $mod+$lc06 workspace 6
+bindsym $mod+7 move container to workspace 7
+bindsym $mod+$lc07 workspace 7
+bindsym $mod+8 move container to workspace 8
+bindsym $mod+$lc08 workspace 8
+bindsym $mod+9 move container to workspace 9
+bindsym $mod+$lc09 workspace 9
+bindsym $mod+0 move container to workspace 10
+bindsym $mod+$lc10 workspace 10
+bindsym $mod+degree move container to workspace 11
+bindsym $mod+$lc11 workspace 11
+bindsym $mod+grave move container to workspace 12
+bindsym $mod+$lc12 workspace 12
+
+#
+# Layout stuff:
+#
+# You can "split" the current object of your focus with
+# $mod+b or $mod+v, for horizontal and vertical splits
+# respectively.
+bindsym $mod+q splith
+bindsym $mod+g splitv
+
+# Switch the current container between different layout styles
+bindsym $mod+eacute layout toggle tabbed splith splitv
+
+# Make the current focus fullscreen
+bindsym $mod+f11 fullscreen
+
+# Toggle the current focus between tiling and floating mode
+bindsym $mod+Shift+space floating toggle
+
+# Swap focus between the tiling area and the floating area
+bindsym $mod+space focus mode_toggle
+
+# Move focus to the parent container
+bindsym $mod+a focus parent
+#
+# Scratchpad:
+#
+# Move the currently focused window to the scratchpad
+bindsym $mod+w move scratchpad
+
+# Show the next scratchpad window or hide the focused scratchpad window.
+# If there are multiple scratchpad windows, this command cycles through them.
+bindsym $mod+z scratchpad show
+
+# Add gaps to workspace
+bindsym $mod+Left gaps horizontal current minus 50
+bindsym $mod+Right gaps horizontal current plus 50
+
+# Dismiss notifications
+bindsym $mod+backspace exec makoctl dismiss -a
+
+#
+# Resizing containers:
+#
+mode "resize" {
+    # left will shrink the containers width
+    # right will grow the containers width
+    # up will shrink the containers height
+    # down will grow the containers height
+    bindsym $left resize shrink width 10px
+    bindsym $down resize grow height 10px
+    bindsym $up resize shrink height 10px
+    bindsym $right resize grow width 10px
+
+    # Return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+#
+# Status Bar:
+#
+# Read `man 5 sway-bar` for more information about this section.
+bar {
+    swaybar_command swaybar
+
+    position bottom
+    mode hide
+
+    # When the status_command prints a new line to stdout, swaybar updates.
+    # The default just shows the current date and time.
+    status_command ~/.config/sway/status_bar.sh
+
+    colors {
+        statusline #ffffff
+        background #323232
+        inactive_workspace #323232 #323232 #5c5c5c
+    }
+}
