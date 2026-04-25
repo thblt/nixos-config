@@ -1,0 +1,156 @@
+(defcfg
+  ;; Enabled makes kanata process keys that are not defined in defsrc
+  ;; Fixes altgr for Windows (see Arsenik issue #22)
+  process-unmapped-keys yes
+  windows-altgr cancel-lctl-press
+  ;; Limit to Apple built-in keyboard
+  macos-dev-names-include ("Apple Internal Keyboard / Trackpad"))
+
+(defvar
+  ;; The key must be pressed twice in 200ms to enable repetitions.
+  tap_timeout 200
+  ;; The key must be held 200ms to become a layer shift.
+  hold_timeout 150
+  ;; Slightly higher value for typing keys, to prevent unexpected hold effect.
+  long_hold_timeout 300)
+
+;; Mac with angle mod
+(defsrc
+ grv  1    2    3    4    5  bspc   6    7    8    9    0
+      q    w    e    r    t         y    u    i    o    p
+      a    s    d    f    g         h    j    k    l    ;
+  <   z    x    c    v    b     n    m    ,    .    /
+            lmet          spc             rmet)
+
+(deflayer base
+  <    _    _    _    _    _    _    _    _    _    _    _
+       q    w    e    r    t         y    u    i    o    p
+       @aa  @ss  @dd  @ff  g         h    @jj  @kk  @ll  @sc
+  grv  z    x    c    v    b    n    m    ,    .    /
+            @sft         @nav            @sym)
+
+(defalias
+ nav (tap-hold $tap_timeout $long_hold_timeout spc (layer-while-held navigation))
+
+  ;; Space-cadet thumb keys: Shift/BackSpace, AltGr/Enter.
+  ;; Acts as a modifier by default, or as BackSpace/Enter when tapped separately.
+  sft (tap-hold-press $tap_timeout $hold_timeout bspc lsft)
+  sym (tap-hold-press $tap_timeout $hold_timeout ret (layer-while-held symbols))
+
+  ;; Home-row mods
+  aa (tap-hold $tap_timeout $long_hold_timeout a lshft)
+  ss (tap-hold $tap_timeout $long_hold_timeout s lalt)
+  dd (tap-hold $tap_timeout $long_hold_timeout d lctl)
+  ff (tap-hold $tap_timeout $long_hold_timeout f lmet)
+
+  jj (tap-hold $tap_timeout $long_hold_timeout j lmet)
+  kk (tap-hold $tap_timeout $long_hold_timeout k rctl)
+  ll (tap-hold $tap_timeout $long_hold_timeout l ralt)
+  sc (tap-hold $tap_timeout $long_hold_timeout ; rshft))
+
+;; Symbol layer: same as AltGr.
+;; Concretely this does nothing, just let AltGr as-is for keyboard layouts
+;; depending heavily on AltGr, like Bépo or simply Lafayette layouts like
+;; Ergo‑L, which already have that layer baked in.
+
+(deflayer symbols
+  AG-<   AG-1 AG-2 AG-3 AG-4 AG-5  XX  AG-6 AG-7 AG-8 AG-9 AG-0
+         AG-q AG-w AG-e AG-r AG-t      AG-y AG-u AG-i AG-o AG-p
+         AG-a AG-s AG-d AG-f AG-g      AG-h AG-j AG-k AG-l AG-;
+  AG-grv AG-z AG-x AG-c AG-v AG-b      AG-n AG-m AG-, AG-. AG-/
+            _             AG-spc          _)
+
+(deflayer navigation
+  _ M-1  M-2  M-3  M-4  M-5  lrld M-6  M-7  M-8  M-9  M-0
+  tab  home up   end  pgup      @/   @7   @8   @9   @run
+  @all lft  down rght pgdn      @-   @1   @2   @3   @0
+  grv @ndo @cut @cpy @pst S-tab    @,   @4   @5   @6   @.
+            del             _             esc)
+
+;; Ergo‑L Windows/Linux aliases
+
+(defalias run XX) ;; noop (why?)
+
+;; Navigation layer
+(defalias
+  all C-a
+  sav C-s
+  cls C-t
+  ndo C-z
+  cut C-x
+  cpy C-w
+  pst C-v
+
+  0 0
+  1 1
+  2 2
+  3 3
+  4 4
+  5 5
+  6 6
+  7 7
+  8 8
+  9 9
+  , .
+  . n
+)
+
+;; Symbols layer
+(defalias
+
+  ^  AG-q
+  <  AG-w
+  >  AG-e
+  $  AG-r
+  %  AG-t
+  @  AG-y
+  &  AG-u
+  *  AG-i
+  '  AG-o
+  `  AG-p
+
+  {  AG-a
+  pl AG-s
+  pr AG-d
+  }  AG-f
+  =  AG-g
+  \  AG-h
+  +  AG-j
+  -  AG-k
+  /  AG-l
+  '' AG-;
+
+  ~  AG-z
+  [  AG-x
+  ]  AG-c
+  _  AG-v
+  #  AG-b
+  |  AG-n
+  !  AG-m
+  ;  AG-,
+  :  AG-.
+  ?  AG-/
+)
+
+;; NumRow layer
+(defalias
+
+  s0 S-0
+  s1 S-1
+  s2 S-2
+  s3 S-3
+  s4 S-4
+  s5 S-5
+  s6 S-6
+  s7 S-7
+  s8 S-8
+  s9 S-9
+  nbs S-spc ;; narrow no-break space
+
+  1dk o
+  ;; digits must be escaped, otherwise they’re interpreted as delays in ms
+  dk1 (macro @1dk @1)
+  dk2 (macro @1dk @2)
+  dk3 (macro @1dk @3)
+  dk4 (macro @1dk @4)
+  dk5 (macro @1dk @5))
