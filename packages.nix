@@ -63,7 +63,7 @@ in {
       hugo
       imagemagick
       kalamine
-      neofetch # I know.
+      fastfetch # I know.
       qmk
       qrencode
       yt-dlp
@@ -120,14 +120,14 @@ in {
         extra = { pkgs = [ auto-multiple-choice ]; };
       })
       # *** Web
-      nodePackages.prettier
+      prettier
       nodejs
       sass
       yarn
 
     ] ++ lib.optionals isDarwin [ kanata ] ++ lib.optionals isPureLinux [
       # Large graphical programs we don't need/want in WSL
-      auto-multiple-choice
+      # auto-multiple-choice
       bitwarden
       chromium
       discord
