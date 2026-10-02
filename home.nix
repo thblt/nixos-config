@@ -59,6 +59,7 @@ in
       enable = true;
       dotDir = "${config.xdg.configHome}/zsh";
     };
+    programs.nix-index.enable = true;
 
     xdg = {
       enable = true;

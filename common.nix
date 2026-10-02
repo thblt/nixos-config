@@ -70,7 +70,6 @@
   time.hardwareClockInLocalTime = true;
 
   programs = {
-    nix-index.enable = true;
     gnupg.agent = {
       enable = true;
       enableSSHSupport = false;
