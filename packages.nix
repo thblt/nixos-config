@@ -63,6 +63,8 @@ in
         jless
         jq
         pandoc
+        proton-cli
+        proton-pass-cli
         tre-command
 
         # ** Graphical utilities and appliations
@@ -151,6 +153,8 @@ in
       libreoffice
       eog
       nautilus
+      protonmail-desktop
+      proton-pass
       signal-desktop
       spotify
       transmission_4-gtk

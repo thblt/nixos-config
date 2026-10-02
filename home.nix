@@ -17,27 +17,6 @@ in
 {
   home-manager.users.thblt = { config, ... }: {
 
-    # ░█▀▄░▀█▀░▀█▀░█░█░█▀█░█▀▄░█▀▄░█▀▀░█▀█
-    # ░█▀▄░░█░░░█░░█▄█░█▀█░█▀▄░█░█░█▀▀░█░█
-    # ░▀▀░░▀▀▀░░▀░░▀░▀░▀░▀░▀░▀░▀▀░░▀▀▀░▀░▀
-
-    # From the doc: you need to `rbw register` before you `rbw login`
-    programs.rbw = {
-      enable = true;
-      settings = {
-        email = "thibault@thb.lt";
-        base_url = "https://api.bitwarden.eu/";
-        pinentry = my-pinentry;
-        lock_timeout = 31536000;
-      };
-    };
-
-    home.sessionVariables."SSH_AUTH_SOCK" =
-      if isDarwin then
-        "$(getconf DARWIN_USER_TEMP_DIR)rbw-$(id -u)/ssh-agent-socket"
-      else
-        "$XDG_RUNTIME_DIR/rbw/ssh-agent-socket";
-
     # ░█▀▀░█░█░█▀▀░█░░░█░░
     # ░▀▀█░█▀█░█▀▀░█░░░█░░
     # ░▀▀▀░▀░▀░▀▀▀░▀▀▀░▀▀▀
@@ -347,6 +326,8 @@ in
     # ░█▄█░▀█▀░█▀▀░█▀▀
     # ░█░█░░█░░▀▀█░█░░
     # ░▀░▀░▀▀▀░▀▀▀░▀▀▀
+
+    services.proton-pass-agent.enable = true;
 
     home.packages = with pkgs; [
       (aspellWithDicts (
