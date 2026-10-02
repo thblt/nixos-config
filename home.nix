@@ -329,6 +329,7 @@ in
     # ░█░█░░█░░▀▀█░█░░
     # ░▀░▀░▀▀▀░▀▀▀░▀▀▀
 
+    xdg.configFile."sway".source = config.lib.file.mkOutOfStoreSymlink "${flake-root}/dotfiles/sway";
     services.proton-pass-agent.enable = true;
 
     home.packages = with pkgs; [
