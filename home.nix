@@ -311,6 +311,7 @@ in
 
     services.emacs = {
       enable = true;
+      startWithUserSession = "graphical";
     };
 
     # ░█░█░█▀▀░▀▀█░▀█▀░█▀▀░█▀▄░█▄█
