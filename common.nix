@@ -100,7 +100,7 @@
         wl-clipboard
         #(import ./packages/wl-ime-type.nix)
         xdg-utils
-        xorg.xev
+        xev
         xsel
         xwayland
       ];

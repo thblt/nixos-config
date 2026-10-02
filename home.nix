@@ -1,6 +1,5 @@
 {
   pkgs,
-  isDarwin,
   lib,
   inputs,
   ...
@@ -154,7 +153,7 @@ in
 
     programs.notmuch = {
       enable = true;
-      new.tags = [ "new" ];
+      settings.new.tags = [ "new" ];
     };
 
     home.file.".mail/.notmuch/hooks".source =
