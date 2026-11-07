@@ -53,7 +53,6 @@
   boot.initrd.luks.devices = {
     crypt = {
       allowDiscards = true;
-      preLVM = true;
     };
   };
 
